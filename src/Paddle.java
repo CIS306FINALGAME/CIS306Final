@@ -14,17 +14,14 @@
  */
 
 
+import java.awt.Color;
+import java.awt.Graphics;
 import java.awt.Image;
 
 
 public class Paddle extends GameObject{
 
-	public final int WIDTH = 200;
-	public final int HEIGHT = 25;
-	
 	private int lives = 3;
-	
-	
 	
 
 	
@@ -32,8 +29,7 @@ public class Paddle extends GameObject{
 	public Paddle()
 	{
 		super();
-		xPos = 0;
-
+		xPos = GamePanel.WIDTH/2;
 		yPos = GamePanel.HEIGHT - 100;
 		
 	}
@@ -42,9 +38,9 @@ public class Paddle extends GameObject{
 	public Paddle(Image pImage)
 	{
 		super (pImage);
-		xPos = 0;
+		xPos = GamePanel.WIDTH/2;
 
-		yPos = GamePanel.HEIGHT - 100;
+		yPos = GamePanel.HEIGHT - 400;
 		
 	}
 	
@@ -75,12 +71,17 @@ public class Paddle extends GameObject{
 	public void setLives(int lives) {
 		this.lives = lives;
 	}
+   // draw rectangle
+		   
 
+@Override
+public void draw(Graphics g) {
+	// TODO Auto-generated method stub
+	   {
+		   g.setColor(Color.YELLOW);
+		   g.fillRect( xPos, yPos, xPos+100, yPos+50  );
+	   } // end method draw
 	
-	@Override
-	public void draw() {
-		// TODO Auto-generated method stub
-		
-	}
+}
 	
 }

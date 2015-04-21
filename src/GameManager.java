@@ -23,9 +23,9 @@ public class GameManager extends JPanel {
 	
 	private Timer timer;
 
-	private Paddle thePlayer;  //Player objects
+	//private Paddle thePlayer;  //Player objects
 	
-	
+	private GamePanel game;
 	
 	private Toolkit tk; //toolkit used to load images
 	private URL url;  //URL used to load images
@@ -54,9 +54,10 @@ public class GameManager extends JPanel {
 //		this.setFocusable(true);
 //		//Add the keyboard listener to the class
 //		
+		game = new GamePanel();
 //		
-//		this.setBackground(Color.BLACK);
-	
+		this.setBackground(Color.GRAY);
+		this.setVisible(true);
 		
 	
 	}

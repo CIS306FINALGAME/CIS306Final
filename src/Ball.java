@@ -165,10 +165,8 @@ public class Ball extends GameObject{
 			this.yVelocity = yVelocity;
 		}
 
-	
-	
 		@Override
-		public void draw() {
+		public void draw(Graphics g) {
 			// TODO Auto-generated method stub
 			
 		}

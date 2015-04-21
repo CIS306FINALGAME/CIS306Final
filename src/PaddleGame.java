@@ -38,6 +38,7 @@ public class PaddleGame extends JFrame{
 		
 		this.setVisible(true);
 		
+		
 	}
 	
 	

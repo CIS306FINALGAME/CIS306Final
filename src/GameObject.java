@@ -10,6 +10,7 @@
 
 
 // IM TAKING OVER THE WORLD
+import java.awt.Graphics;
 import java.awt.Image;
 import java.awt.Rectangle;
 import java.awt.Toolkit;
@@ -117,7 +118,7 @@ public abstract class GameObject {
 		return collisionRect;
 	}
 	
-	abstract public void draw();
+	abstract public void draw(Graphics g);
 	
 
 }
