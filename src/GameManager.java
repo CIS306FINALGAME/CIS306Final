@@ -1,19 +1,11 @@
-import java.awt.Color;
+import java.awt.BorderLayout;
 import java.awt.Graphics;
-import java.awt.Graphics2D;
-import java.awt.Image;
-import java.awt.Rectangle;
-import java.awt.Toolkit;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
-import java.awt.geom.AffineTransform;
-import java.awt.geom.Rectangle2D;
-import java.net.URL;
 import java.util.ArrayList;
 import java.util.Iterator;
-import java.util.Random;
 
 import javax.swing.JPanel;
 import javax.swing.Timer;
@@ -21,44 +13,58 @@ import javax.swing.Timer;
 
 public class GameManager extends JPanel {
 	
-	private Timer timer;
 
-	//private Paddle thePlayer;  //Player objects
 	
 	private GamePanel game;
 	
-	private Toolkit tk; //toolkit used to load images
-	private URL url;  //URL used to load images
+	private Paddle thePlayer;  //Player objects
 	
+	private ScorePanel scorePanel;
+	private GamePanel gamePanel;
+	private ControlPanel controlPanel;
 	
-	
-	
+	private int lives; 	//Lives remaining
 	private int score;  //Score of the game
+	
+	ArrayList<Block> blocks;
+	
+	private Timer timer;
+	private boolean run;
 	
 	public GameManager()
 	{
-//		tk = Toolkit.getDefaultToolkit();
-//	
-//		//Load the an image to represent the player 
-//		
-//		
-//		//Instantiate a player and pass the image
-//		thePlayer= new Paddle(tk.getImage(url));
-//		//Instantiate an "enemy object" or arrays of falling objects
-//		
-//		
-//		//Instantiate timer
-//
-//
-//		//Set focusable to be true so the user doesn't have to click on the screen
-//		this.setFocusable(true);
-//		//Add the keyboard listener to the class
-//		
-		game = new GamePanel();
-//		
-		this.setBackground(Color.GRAY);
-		this.setVisible(true);
+
+		lives = 3;
+		score = 0;
 		
+		blocks = new ArrayList<Block>();
+		//setupBlocks();
+		
+		//Applet Setup
+		this.setSize(WIDTH, HEIGHT);
+		this.setLayout(new BorderLayout());
+		
+		//Setup panels
+		scorePanel = new ScorePanel(score,lives);
+		gamePanel = new GamePanel();
+		controlPanel = new ControlPanel();
+		
+		//Add panels to applet
+		this.add(scorePanel,BorderLayout.NORTH);
+		this.add(gamePanel, BorderLayout.CENTER);
+		this.add(controlPanel, BorderLayout.SOUTH);
+
+		
+		//Add listeners
+		controlPanel.startButton.addActionListener(new buttonListener());
+		controlPanel.stopButton.addActionListener(new buttonListener());
+				
+		
+		
+		
+		//Setup Timer and run bool for main thread
+		timer = new Timer(100, new TimerListener());
+		run = true;
 	
 	}
 	
@@ -130,26 +136,48 @@ public class GameManager extends JPanel {
 		}
 	}
 
-	private class MyKeyListener implements KeyListener{
-	@Override
-	public void keyPressed(KeyEvent e) {
+		private class MyKeyListener implements KeyListener{
+		@Override
+		public void keyPressed(KeyEvent e) {
+			
+		}
+	
+	
+		@Override
+		public void keyReleased(KeyEvent arg0) {
+			// TODO Auto-generated method stub
+			
+		}
+	
+	
+		@Override
+		public void keyTyped(KeyEvent arg0) {
+			// TODO Auto-generated method stub
+			
+		}
+	}
 		
-	}
-
-
-	@Override
-	public void keyReleased(KeyEvent arg0) {
-		// TODO Auto-generated method stub
+		private class buttonListener implements ActionListener{
+			
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				// TODO Auto-generated method stub
+				if(e.getSource()==controlPanel.startButton)
+				{
+					timer.start();
+					run = true;
+				}
+				else if(e.getSource()==controlPanel.stopButton)
+				{
+					System.exit(0);
+				}
+			}
+		}
 		
-	}
-
-
-	@Override
-	public void keyTyped(KeyEvent arg0) {
-		// TODO Auto-generated method stub
-		
-	}
-	}
+		private void alert(String input)
+		{
+			System.out.println(input.toString());
+		}
 
 
 }

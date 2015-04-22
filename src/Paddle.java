@@ -22,15 +22,16 @@ import java.awt.Image;
 public class Paddle extends GameObject{
 
 	private int lives = 3;
-	
+
 
 	
 	//default no argument constructor
 	public Paddle()
 	{
 		super();
-		xPos = GamePanel.WIDTH/2;
-		yPos = GamePanel.HEIGHT - 100;
+		xPos = GamePanel.WIDTH/4;
+		yPos = 460;
+	
 		
 	}
 	
@@ -38,16 +39,17 @@ public class Paddle extends GameObject{
 	public Paddle(Image pImage)
 	{
 		super (pImage);
-		xPos = GamePanel.WIDTH/2;
+		xPos = GamePanel.WIDTH/4;
 
-		yPos = GamePanel.HEIGHT - 400;
+		yPos = 460;
+		
 		
 	}
 	
 	//Called from the Game Manager when the player presses the left arrow key
 	public void moveLeft()
 	{
-		xPos-=4;
+		xPos-=30;
 		this.getCollisionRect().x=xPos;
 		this.getCollisionRect().y=yPos;
 		this.getCollisionRect().height = getHeight();
@@ -57,11 +59,12 @@ public class Paddle extends GameObject{
 	//Called from the Game Manger when the player presses the right arrow key
 	public void moveRight()
 	{
-		xPos+=4;
+		xPos+=30;
 		this.getCollisionRect().x=xPos;
 		this.getCollisionRect().y=yPos;
 		this.getCollisionRect().height = getHeight();
 		this.getCollisionRect().width = this.getWidth();
+		
 	}
 		
 	public int getLives() {
@@ -73,15 +76,13 @@ public class Paddle extends GameObject{
 	}
    // draw rectangle
 		   
-
-@Override
-public void draw(Graphics g) {
+public void draw (Graphics g) {
 	// TODO Auto-generated method stub
-	   {
-		   g.setColor(Color.YELLOW);
-		   g.fillRect( xPos, yPos, xPos+100, yPos+50  );
+	   {  
+		  // g.drawRect(200, 200, 300, 300); 
+		  // g.drawRect(xPos, yPos, xPos+100, yPos+50);   
+		   g.fillRect( xPos, yPos, 100, 10);
 	   } // end method draw
 	
-}
-	
+}	
 }

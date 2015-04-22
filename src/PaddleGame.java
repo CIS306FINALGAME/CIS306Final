@@ -27,6 +27,7 @@ public class PaddleGame extends JFrame{
 	private GameManager mainPanel;
 	public static int WIDTH = 1000;
 	public static int HEIGHT = 600;
+	
 	public PaddleGame()
 	{
 		this.setLayout(new BorderLayout());

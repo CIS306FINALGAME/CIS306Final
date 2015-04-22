@@ -2,3 +2,5 @@
 /GameManager$TimerListener.class
 /GameManager.class
 /PaddleGame.class
+/GameManager$buttonListener.class
+/GamePanel$keysPressed.class

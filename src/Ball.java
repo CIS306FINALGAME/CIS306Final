@@ -19,6 +19,7 @@
 import java.awt.Color;
 import java.awt.Graphics;
 import java.awt.Image;
+import java.util.Random;
 
 
 public class Ball extends GameObject{
@@ -28,7 +29,7 @@ public class Ball extends GameObject{
 	private int xVelocity;
 	private int yVelocity;
 	private Color ballColor;
-	
+	private Random generator;
 
 	//default no argument constructor
 		public Ball()
@@ -36,14 +37,15 @@ public class Ball extends GameObject{
 			super();
 			xPos = 0;
 
-			yPos = GamePanel.HEIGHT - 100;
+			yPos = 12;
 			
 			ballColor = new Color(0,200,0);
-			
+			generator = new Random();
 			// Set a constant velocity of  1:3 to create a nice steep angle
 			xVelocity = 1;
 			yVelocity = 3;
-			
+			//xVelocity = generator.nextInt(10);
+			//yVelocity = generator.nextInt(10);
 			
 		}
 		
@@ -75,7 +77,7 @@ public class Ball extends GameObject{
 		}*/
 		
 	
-		public void drawBall(Graphics g)
+		public void draw(Graphics g)
 		{
 			g.setColor(ballColor);
 			g.drawOval(xPos, yPos, ballWidth, ballHeight);
@@ -83,31 +85,47 @@ public class Ball extends GameObject{
 
 		public void moveBall()
 		{
-			this.getCollisionRect().x=xPos;
-			this.getCollisionRect().y=yPos;
-			this.getCollisionRect().height = getHeight();
-			this.getCollisionRect().width = this.getWidth();
+			if (getxPos()+ ballWidth > 600)
+			{
+				setxVelocity(-1* getxPos());
+			}
 			
+		
+			if(getyPos()+ Ball.ballHeight > 440)
+			{
+				setyVelocity(-1* getyPos());
+			}
 			xPos = xPos + xVelocity;
 			yPos = yPos + yVelocity;
+			
+//			this.getCollisionRect().x=xPos;
+//			this.getCollisionRect().y=yPos;
+//			this.getCollisionRect().height = getHeight();
+//			this.getCollisionRect().width = this.getWidth();
+//			
+//			xPos = xPos + xVelocity;
+//			yPos = yPos + yVelocity;
+//			
+//			wallCrash();
+			
 		}
 
 		// Check and see if the we crashed into a wall of the panel
 			// will look and see if it was on the top/bottom or left/right side
 				// manipulate the velocity for which one
-//		private void wallCrash(){
-//			if (getxPos()+ ballWidth>GamePanel.PANEL_WIDTH)
-//			{
-//				setxVelocity(-1* getxPos());
-//			}
-//			
-//		
-//			if(getyPos()+Ball.ballHeight >GamePanel.PANEL_HEIGHT)
-//			{
-//				setyVelocity(-1* getyPos());
-//			}
-//			
-//		}
+		private void wallCrash(){
+			if (getxPos()+ ballWidth>GamePanel.WIDTH)
+			{
+				setxVelocity(-1* getxPos());
+			}
+			
+		
+			if(getyPos()+Ball.ballHeight >GamePanel.HEIGHT)
+			{
+				setyVelocity(-1* getyPos());
+			}
+			
+		}
 //
 //		// Check and see if the we crashed into a block
 //			// will look and see if it was on the x or y side
@@ -164,14 +182,4 @@ public class Ball extends GameObject{
 		public void setyVelocity(int yVelocity) {
 			this.yVelocity = yVelocity;
 		}
-
-		@Override
-		public void draw(Graphics g) {
-			// TODO Auto-generated method stub
-			
-		}
-	
-	
-	
-	
 }
