@@ -7,7 +7,7 @@
  * 
  * Attributes:		x and y velocity, set ball width and height for non argument consturctor.
  * 
- * 
+ * Line 97: Starts the reset for when we die, quick if statement within the moveBall() 
  * 
  * @author Chris
  * 
@@ -93,8 +93,14 @@ public class Ball extends GameObject{
 			{
 				setyVelocity(-1* getyVelocity());
 			}
-			
-			
+	
+			// NEED THIS FOR LIFE COUNTS, ONCE WE DO COLLISIONS WE CAN ADD THIS BACK IN
+//			if(getCurrentY() + Ball.ballHeight < 460){
+//				currentX =GamePanel.WIDTH/4;
+//				currentY = 430;
+//				xVelocity = 1;
+//				yVelocity = 3;	
+//			}
 			
 			
 			currentX = currentX + xVelocity;
