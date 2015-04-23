@@ -95,12 +95,26 @@ public abstract class GameObject {
 
 	public int getWidth()
 	{
-		return objectPic.getWidth(null);
+		if(objectPic!=null)
+		{
+			return objectPic.getWidth(null);
+		}
+		else 
+		{
+			return width;
+		}
 	}
 	
 	public int getHeight()
 	{
-		return objectPic.getHeight(null);
+		if(objectPic!=null)
+		{
+			return objectPic.getHeight(null);
+		}
+		else 
+		{
+			return height;
+		}
 	}
 	
 	public void setShouldDraw(boolean pDelete)

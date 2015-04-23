@@ -21,6 +21,7 @@ public class Block extends GameObject{
 		yPos = pYPos;
 		pointValue = 10;
 		broken = false;
+		collisionRect = new Rectangle(xPos,yPos,WIDTH,HEIGHT);
 	}
 	
 	
@@ -33,16 +34,23 @@ public class Block extends GameObject{
 	{
 		return broken;
 	}
+	
+	public void setBroken(boolean pBroken) {
+		this.broken = pBroken;
+	}
 
 	@Override
 	public void draw(Graphics g) {
 		// TODO Auto-generated method stub
 		g.setColor(Color.BLUE);
 
-		
-		
 		g.fillRect(xPos, yPos, WIDTH, HEIGHT);
-		//g.fillRect(xPos, yPos, WIDTH, HEIGHT);
+		
+		
+		
+		g.setColor(Color.RED);
+		
+		g.drawRect(collisionRect.x, collisionRect.y, collisionRect.width, collisionRect.height);
 	}
 	
 	

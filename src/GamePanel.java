@@ -94,7 +94,6 @@ public class GamePanel extends JPanel implements Runnable{
 			checkCollisions();
 			removeObjects();
 			moveBall();
-			checkKeyInput();
 			
 			
 			repaint();
@@ -115,12 +114,29 @@ public class GamePanel extends JPanel implements Runnable{
 	
 	private void checkCollisions()
 	{
+		for (Block block : blocks) {
+			
+			if(ball.collisionRect.intersects(block.collisionRect))
+			{
+				block.setBroken(true);
+			}
+			
+		}
+		
 		
 	}
 	
+	//TBC : TODO : Get index of block before removing..remove throws exception
 	private void removeObjects()
 	{
 		
+		
+//		for (Block block : blocks) {
+//			if(block.isBroken())
+//			{
+//				blocks.remove(block);
+//			}
+//		}
 	}
 	
 	private void moveBall()
@@ -129,15 +145,12 @@ public class GamePanel extends JPanel implements Runnable{
 		ball.moveBall();
 	}
 	
-	private void checkKeyInput()
-	{
-		
-	}
-	
 
 	public void paintComponent(Graphics g){
 
-		//Need to paint this first, makes sure the ball is "above" the blocks
+		
+		super.paintComponent(g);
+		this.requestFocus();
 		
 		for (Block block : blocks) {
 				//If block is not broken draw it otherwise do not draw it
@@ -204,20 +217,6 @@ public class GamePanel extends JPanel implements Runnable{
 
 			@Override
 			public void keyTyped(KeyEvent e) {
-//				// TODO Auto-generated method stub
-//				  int key = e.getKeyCode();
-//
-//			        if (key == KeyEvent.VK_LEFT) {
-//			            player.moveLeft();
-//			            repaint();
-//			            //System.out.println("Left key typed");
-//			        }
-//
-//			        if (key == KeyEvent.VK_RIGHT) {
-//			            player.moveRight();
-//			            repaint();
-//			        	//System.out.println("Right key typed");
-//			        }
 				
 			}
 	}	

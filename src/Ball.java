@@ -44,9 +44,11 @@ public class Ball extends GameObject{
 			super();
 			
 			
-			currentX =GamePanel.WIDTH/4;
-			currentY = 440;
-			collisionRect = new Rectangle(currentX, currentY, 0, 0);
+			xPos =GamePanel.WIDTH/4;
+			yPos = 440;
+			
+
+			collisionRect = new Rectangle(xPos, yPos, ballWidth, ballHeight);
 
 			
 			ballColor = new Color(0,200,0);
@@ -66,7 +68,7 @@ public class Ball extends GameObject{
 
 			yPos = GamePanel.HEIGHT - 100;
 			
-			collisionRect = new Rectangle(xPos, yPos, 0, 0);
+			collisionRect = new Rectangle(xPos, yPos, ballWidth, ballHeight);
 			
 			// Set a constant velocity of  1:3 to create a nice steep angle
 			xVelocity = 2;
@@ -78,21 +80,24 @@ public class Ball extends GameObject{
 		public void draw(Graphics g)
 		{
 			g.setColor(ballColor);
-			g.fillOval(currentX, currentY, ballWidth, ballHeight);
-			g.drawRect(currentX, currentY, ballWidth, ballHeight);
+			g.fillOval(xPos, yPos, ballWidth, ballHeight);
+			
+			g.drawRect(collisionRect.x, collisionRect.y, collisionRect.width, collisionRect.height);
 		}
 
 		public void moveBall()
 		{
+			
+			collisionRect.x = this.xPos;
+			collisionRect.y = this.yPos;
 
-
-			if (getCurrentX()+ ballWidth>GamePanel.WIDTH || getCurrentX()<0 )
+			if (getxPos()+ ballWidth>GamePanel.WIDTH || getxPos()<0 )
 			{
 				setxVelocity(-1* getxVelocity());
 			}
 			
 		
-			if(getCurrentY()+Ball.ballHeight >GamePanel.HEIGHT-100 || getCurrentY()<0)
+			if(getyPos()+Ball.ballHeight >GamePanel.HEIGHT-100 || getyPos()<0)
 			{
 				setyVelocity(-1* getyVelocity());
 			}
@@ -106,8 +111,8 @@ public class Ball extends GameObject{
 //			}
 			
 			
-			currentX = currentX + xVelocity;
-			currentY = currentY + yVelocity;
+			xPos = xPos + xVelocity;
+			yPos = yPos + yVelocity;
 			
 		}	
 
@@ -116,22 +121,6 @@ public class Ball extends GameObject{
 		
 		public int getxVelocity() {
 			return xVelocity;
-		}
-
-		public int getCurrentX() {
-			return currentX;
-		}
-
-		public void setCurrentX(int currentX) {
-			this.currentX = currentX;
-		}
-		
-		public int getCurrentY() {
-			return currentY;
-		}
-		
-		public void setCurrentY(int currentY) {
-			this.currentY = currentY;
 		}
 
 		public void setxVelocity(int xVelocity) {
