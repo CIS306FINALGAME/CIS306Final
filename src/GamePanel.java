@@ -37,8 +37,6 @@ public class GamePanel extends JPanel implements Runnable{
 	
 	private boolean run;
 
-	
-	private Graphics graphicsObject;
 
 	public GamePanel() 
 	{
@@ -65,7 +63,8 @@ public class GamePanel extends JPanel implements Runnable{
 	
 	@Override
 	public void run() {
-		// TODO Auto-generated method stub
+		this.addKeyListener(new keysPressed());
+		this.setFocusable(true);	
 		runGame();
 	}
 	
@@ -102,7 +101,7 @@ public class GamePanel extends JPanel implements Runnable{
 			
 			
 			try{
-				 Thread.sleep(100);
+				 Thread.sleep(30);
 			 }
 			 catch (InterruptedException exception){
 				 System.out.println("Thread exited due to interruption");
@@ -133,15 +132,9 @@ public class GamePanel extends JPanel implements Runnable{
 
 	public void paintComponent(Graphics g){
 
-		g.setColor(Color.BLACK);  
-		graphicsObject = g;
-		player.draw(graphicsObject);
-		ball.draw(graphicsObject);
-
 		g.setColor(Color.BLACK);   
 		player.draw(g);
 		ball.draw(g);
-		
 		for (Block block : blocks) {
 			
 			//If block is not broken draw it otherwise do not draw it
@@ -174,12 +167,12 @@ public class GamePanel extends JPanel implements Runnable{
 
 		        int key = e.getKeyCode();
 
-		        if (key == KeyEvent.VK_LEFT) {
+		        if (key == KeyEvent.VK_LEFT || player.getyPos() < 0) {
 		            player.moveLeft();
 		            repaint();
 		        }
 
-		        if (key == KeyEvent.VK_RIGHT) {
+		        if (key == KeyEvent.VK_RIGHT || player.getxPos() > 900) {
 		            player.moveRight();
 		            repaint();
 		        }

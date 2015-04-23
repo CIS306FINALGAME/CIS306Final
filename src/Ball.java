@@ -22,8 +22,8 @@ import java.util.Random;
 
 public class Ball extends GameObject{
 	
-	public static final int ballWidth = 10;
-	public static final int ballHeight = 10;
+	public static final int ballWidth = 30;
+	public static final int ballHeight = 30;
 	
 	private int xVelocity;
 	private int yVelocity;
@@ -42,12 +42,12 @@ public class Ball extends GameObject{
 		public Ball()
 		{
 			super();
-			xPos = 50;
+			xPos = 0;
 
-			yPos = 50;
+			yPos = 0;
 			
-			currentX =50;
-			currentY = 50;
+			currentX =GamePanel.WIDTH/4;
+			currentY = 430;
 			
 			ballColor = new Color(0,200,0);
 			//generator = new Random();
@@ -92,7 +92,7 @@ public class Ball extends GameObject{
 			}
 			
 		
-			if(getCurrentY()+Ball.ballHeight >GamePanel.HEIGHT || getCurrentY()<0)
+			if(getCurrentY()+Ball.ballHeight >GamePanel.HEIGHT-100 || getCurrentY()<0)
 			{
 				setyVelocity(-1* getyVelocity());
 			}
@@ -168,20 +168,20 @@ public class Ball extends GameObject{
 		}
 
 		public int getCurrentX() {
-	return currentX;
-}
+			return currentX;
+		}
 
-public void setCurrentX(int currentX) {
-	this.currentX = currentX;
-}
-
-public int getCurrentY() {
-	return currentY;
-}
-
-public void setCurrentY(int currentY) {
-	this.currentY = currentY;
-}
+		public void setCurrentX(int currentX) {
+			this.currentX = currentX;
+		}
+		
+		public int getCurrentY() {
+			return currentY;
+		}
+		
+		public void setCurrentY(int currentY) {
+			this.currentY = currentY;
+		}
 
 		public void setxVelocity(int xVelocity) {
 			this.xVelocity = xVelocity;
