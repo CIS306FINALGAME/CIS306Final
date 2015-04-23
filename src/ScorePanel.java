@@ -11,15 +11,15 @@ public class ScorePanel extends JPanel {
 	private JLabel scoreLabel;
 	private JLabel livesLabel;
 	
-	public ScorePanel(int pScore, int pLives)
+	public ScorePanel()
 	{
-		//this.setBackground(Color.RED);
 		this.setBackground(Color.GRAY);
 		this.setLayout(new BorderLayout());
+		this.setVisible(true);
 		
 		
-		scoreLabel = new JLabel("Score: " + pScore);
-		livesLabel = new JLabel("Lives: " + pLives);	//Hard coded for now
+		scoreLabel = new JLabel("Score:");
+		livesLabel = new JLabel("Lives:");	//Hard coded for now
 		
 		
 		//Setup empty borders to simulate padding

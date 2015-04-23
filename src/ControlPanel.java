@@ -12,6 +12,7 @@ public class ControlPanel extends JPanel {
 	public ControlPanel()
 	{		
 		this.setBackground(Color.GRAY);
+		this.setVisible(true);
 		
 		startButton = new JButton("Start");
 		stopButton = new JButton("Exit");

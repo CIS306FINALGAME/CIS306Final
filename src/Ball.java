@@ -30,6 +30,8 @@ public class Ball extends GameObject{
 	private int yVelocity;
 	private Color ballColor;
 	private Random generator;
+	
+	private boolean lockedToPaddle;
 
 	//default no argument constructor
 		public Ball()
@@ -46,6 +48,7 @@ public class Ball extends GameObject{
 			yVelocity = 3;
 			//xVelocity = generator.nextInt(10);
 			//yVelocity = generator.nextInt(10);
+			lockedToPaddle = false;
 			
 		}
 		
