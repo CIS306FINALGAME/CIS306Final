@@ -93,15 +93,10 @@ public class GamePanel extends JPanel implements Runnable{
 			checkCollisions();
 			removeObjects();
 
-			
+			//Only if the ball has been launched do we allow the ball to keep moving
 			if(ball.isLockedToPaddle() == false){
 				moveBall();
 			}
-			
-
-
-
-			
 			
 			repaint();
 			
@@ -117,6 +112,15 @@ public class GamePanel extends JPanel implements Runnable{
 	}
 	
 	//********END MAIN THREAD LOOP********
+	
+	/**
+	 * Ball Launched Method
+	 * Is called when the "player" hits the space bar
+	 * 			Set our Bool Value to false
+	 * 			Calls the moveBall Function
+	 * 
+	 * @Author Chris
+	 */
 	public void ballLaunched(){
 		ball.setLockedToPaddle(false);
 		moveBall();
@@ -150,6 +154,7 @@ public class GamePanel extends JPanel implements Runnable{
 //		}
 	}
 	
+	//Not sure if we really need this right now.
 	private void moveBall()
 	{
 		
@@ -158,13 +163,12 @@ public class GamePanel extends JPanel implements Runnable{
 	
 
 	public void paintComponent(Graphics g){
-
-
-		
+		//Call Super paint function
 		super.paintComponent(g);
+		//Make sure focus is set to panel so we can move the paddle
 		this.requestFocus();
 
-		
+		//paint the blocks on the screen
 		for (Block block : blocks) {
 				//If block is not broken draw it otherwise do not draw it
 				if(!block.isBroken())
@@ -172,18 +176,14 @@ public class GamePanel extends JPanel implements Runnable{
 					block.draw(g);
 				}		
 		}
-		
+		//Set color to draw the paddle
 		g.setColor(Color.BLACK);   
+		//Draw our player and ball
 		player.draw(g);
 		ball.draw(g);
 		
 	}
-	
-	
-	
-	
-	
-	
+
 	private void setupBlocks()
 	{
 		//Use this block as template for measurements
@@ -196,6 +196,18 @@ public class GamePanel extends JPanel implements Runnable{
 			}
 	}
 	
+/**
+ * Private class for the KeyListners
+ * 
+ *	-Set up for left and right arrow key as well as the "A" and "D" keys
+ *			-If its left or A move left
+ *			-If its right or D move right
+ *	- Set up space bar event handler
+ *			- Actually allows the player to launch the ball when they are ready to
+ *
+ * @author Chris
+ *
+ */
 	private class keysPressed implements KeyListener {
 
 		 public void keyPressed(KeyEvent e) {
@@ -227,6 +239,7 @@ public class GamePanel extends JPanel implements Runnable{
 		 
 		 
 		 //DO NOT COMMENT OUT, NEED THIS FOR COLLISION RECTANGLE USAGE
+		 //Not really sure why, but Im not asking any questions -CEG
 		    public void keyReleased(KeyEvent e) {
 		        int key = e.getKeyCode();
 

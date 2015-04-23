@@ -52,7 +52,7 @@ public class Ball extends GameObject{
 			
 			// Set a constant velocity of  1:3 to create a nice steep angle
 			xVelocity = 1;
-			yVelocity = 3;
+			yVelocity = -3;
 			
 		//Set to true means that we haven't launched the ball
 			lockedToPaddle = true;
@@ -71,7 +71,7 @@ public class Ball extends GameObject{
 			
 			// Set a constant velocity of  1:3 to create a nice steep angle
 			xVelocity = 2;
-			yVelocity = 3;
+			yVelocity = -3;
 			
 		}
 		
@@ -85,20 +85,13 @@ public class Ball extends GameObject{
 			setxPos(xPos - 30);
 		}
 		
-		public boolean isLockedToPaddle() {
-			return lockedToPaddle;
-		}
-
-		public void setLockedToPaddle(boolean lockedToPaddle) {
-			this.lockedToPaddle = lockedToPaddle;
-		}
 
 		public void draw(Graphics g)
 		{
 			g.setColor(ballColor);
 			g.fillOval(xPos, yPos, ballWidth, ballHeight);
 	
-			g.drawRect(collisionRect.x, collisionRect.y, collisionRect.width, collisionRect.height);
+			
 
 		}
 
@@ -120,12 +113,13 @@ public class Ball extends GameObject{
 			}
 	
 			// NEED THIS FOR LIFE COUNTS, ONCE WE DO COLLISIONS WE CAN ADD THIS BACK IN
-//			if(getCurrentY() + Ball.ballHeight < 460){
-//				currentX =GamePanel.WIDTH/4;
-//				currentY = 430;
-//				xVelocity = 1;
-//				yVelocity = 3;	
-//			}
+			if(getyPos()+Ball.ballHeight > 460){
+				setLockedToPaddle(true);
+				xPos =GamePanel.WIDTH/4;		
+				yPos = 440;						//	CHANGE ME WHEN WE START USING PICTURES
+				xVelocity = 2;
+				yVelocity = -3;	
+			}
 			
 			
 			xPos = xPos + xVelocity;
@@ -134,6 +128,15 @@ public class Ball extends GameObject{
 		}	
 
 		//Accessor and Mutator Methods
+		
+
+		public boolean isLockedToPaddle() {
+			return lockedToPaddle;
+		}
+
+		public void setLockedToPaddle(boolean lockedToPaddle) {
+			this.lockedToPaddle = lockedToPaddle;
+		}
 		
 		int getxVelocity() {
 			return xVelocity;
