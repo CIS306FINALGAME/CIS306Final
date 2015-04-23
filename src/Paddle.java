@@ -17,6 +17,7 @@
 import java.awt.Color;
 import java.awt.Graphics;
 import java.awt.Image;
+import java.awt.event.KeyEvent;
 
 
 public class Paddle extends GameObject{
@@ -46,27 +47,32 @@ public class Paddle extends GameObject{
 		
 	}
 	
+	
 	//Called from the Game Manager when the player presses the left arrow key
 	public void moveLeft()
 	{
 		if(getxPos() > 0){
 		xPos-=30;
+
 		this.getCollisionRect().x=xPos;
 		this.getCollisionRect().y=yPos;
 		this.getCollisionRect().height = getHeight();
 		this.getCollisionRect().width = this.getWidth();
 		}
+
 	}
 	//Called from the Game Manger when the player presses the right arrow key
 	public void moveRight()
 	{
 		if(getxPos() + 110 < GamePanel.WIDTH ){
 		xPos+=30;
+
 		this.getCollisionRect().x=xPos;
 		this.getCollisionRect().y=yPos;
 		this.getCollisionRect().height = getHeight();
 		this.getCollisionRect().width = this.getWidth();
 		}
+
 	}
 		
 	public int getLives() {

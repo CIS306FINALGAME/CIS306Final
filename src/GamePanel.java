@@ -61,9 +61,8 @@ public class GamePanel extends JPanel implements Runnable{
 	}
 	
 	@Override
-	public void run() {
-		this.addKeyListener(new keysPressed());
-		this.setFocusable(true);	
+	public void run() 
+	{	
 		runGame();
 	}
 	
@@ -75,6 +74,7 @@ public class GamePanel extends JPanel implements Runnable{
 	public void pauseGame()
 	{
 		run = false;
+		this.setFocusable(true);
 	}
 	
 	public void exitGame()
@@ -93,14 +93,13 @@ public class GamePanel extends JPanel implements Runnable{
 			checkCollisions();
 			removeObjects();
 			moveBall();
-			
+			checkKeyInput();
 			
 			
 			repaint();
 			
-			
 			try{
-				 Thread.sleep(30);
+				 Thread.sleep(100);
 			 }
 			 catch (InterruptedException exception){
 				 System.out.println("Thread exited due to interruption");
@@ -128,6 +127,11 @@ public class GamePanel extends JPanel implements Runnable{
 		ball.moveBall();
 	}
 	
+	private void checkKeyInput()
+	{
+		
+	}
+	
 
 	public void paintComponent(Graphics g){
 
@@ -137,7 +141,10 @@ public class GamePanel extends JPanel implements Runnable{
 		for (Block block : blocks) {
 			
 			//If block is not broken draw it otherwise do not draw it
-			block.draw(g);
+			if(!block.isBroken())
+			{
+				block.draw(g);
+			}
 			
 		}
 	}
@@ -165,46 +172,48 @@ public class GamePanel extends JPanel implements Runnable{
 		 public void keyPressed(KeyEvent e) {
 
 		        int key = e.getKeyCode();
-
-		        if (key == KeyEvent.VK_LEFT || player.getyPos() < 0) {
+		        
+		        if (key == KeyEvent.VK_LEFT || key == KeyEvent.VK_A) 
+		        {
 		            player.moveLeft();
 		            repaint();
 		        }
 
-		        if (key == KeyEvent.VK_RIGHT || player.getxPos() > 900) {
+		        if (key == KeyEvent.VK_RIGHT || key == KeyEvent.VK_D) 
+		        {
 		            player.moveRight();
 		            repaint();
 		        }
 		    }
 
 		    public void keyReleased(KeyEvent e) {
-		        int key = e.getKeyCode();
-
-		        if (key == KeyEvent.VK_LEFT) {
-		        	repaint();
-		        }
-
-		        if (key == KeyEvent.VK_RIGHT) {
-		        	repaint();
-		        }
+//		        int key = e.getKeyCode();
+//
+//		        if (key == KeyEvent.VK_LEFT) {
+//		        	repaint();
+//		        }
+//
+//		        if (key == KeyEvent.VK_RIGHT) {
+//		        	repaint();
+//		        }
 		    }
 
 			@Override
 			public void keyTyped(KeyEvent e) {
-				// TODO Auto-generated method stub
-				  int key = e.getKeyCode();
-
-			        if (key == KeyEvent.VK_LEFT) {
-			            player.moveLeft();
-			            repaint();
-			            //System.out.println("Left key typed");
-			        }
-
-			        if (key == KeyEvent.VK_RIGHT) {
-			            player.moveRight();
-			            repaint();
-			        	//System.out.println("Right key typed");
-			        }
+//				// TODO Auto-generated method stub
+//				  int key = e.getKeyCode();
+//
+//			        if (key == KeyEvent.VK_LEFT) {
+//			            player.moveLeft();
+//			            repaint();
+//			            //System.out.println("Left key typed");
+//			        }
+//
+//			        if (key == KeyEvent.VK_RIGHT) {
+//			            player.moveRight();
+//			            repaint();
+//			        	//System.out.println("Right key typed");
+//			        }
 				
 			}
 	}	

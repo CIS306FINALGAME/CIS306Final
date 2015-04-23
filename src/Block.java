@@ -20,7 +20,7 @@ public class Block extends GameObject{
 		xPos = pXPos;
 		yPos = pYPos;
 		pointValue = 10;
-		broken = true;
+		broken = false;
 	}
 	
 	
