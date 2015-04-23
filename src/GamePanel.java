@@ -22,14 +22,17 @@ public class GamePanel extends JPanel implements ActionListener{
 	private Paddle player;
 	private Ball ball;
 	private Timer timer;
-	protected static int  WIDTH = 1000;
-	protected static int  HEIGHT = 600;
+	protected static final int  WIDTH = 1000;
+	protected static final int  HEIGHT = 500;
 	
+	private Graphics graphicsObject;
+
 	public GamePanel() 
 	{
 		ball = new Ball();
 		player = new Paddle();
-		timer = new Timer(90, this);
+		timer = new Timer(60, this);
+		this.setSize(WIDTH,HEIGHT);
 		this.setBackground(Color.WHITE);		
 		this.addKeyListener(new keysPressed());
 	
@@ -42,9 +45,10 @@ public class GamePanel extends JPanel implements ActionListener{
 
 	public void paintComponent(Graphics g){
 		super.paintComponent( g );
-		g.setColor(Color.BLACK);   
-		player.draw(g);
-		ball.draw(g);
+		g.setColor(Color.BLACK);  
+		graphicsObject = g;
+		player.draw(graphicsObject);
+		ball.draw(graphicsObject);
 		timer.start();
 	}
 	
@@ -58,13 +62,11 @@ public class GamePanel extends JPanel implements ActionListener{
 		        if (key == KeyEvent.VK_LEFT) {
 		            player.moveLeft();
 		            repaint();
-		            //System.out.println("Left key typed");
 		        }
 
 		        if (key == KeyEvent.VK_RIGHT) {
 		            player.moveRight();
 		            repaint();
-		        	//System.out.println("Right key typed");
 		        }
 		    }
 
@@ -73,13 +75,10 @@ public class GamePanel extends JPanel implements ActionListener{
 
 		        if (key == KeyEvent.VK_LEFT) {
 		        	repaint();
-		        	
-		        	//System.out.println("LEFt key typed");
 		        }
 
 		        if (key == KeyEvent.VK_RIGHT) {
 		        	repaint();
-		        	//System.out.println("Right key typed");
 		        }
 		    }
 
