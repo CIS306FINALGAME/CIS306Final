@@ -54,11 +54,11 @@ public class Paddle extends GameObject{
 	public void moveLeft()
 	{
 		if(getxPos() > 0){
-		xPos-=30;
-		this.getCollisionRect().x=xPos;
-		this.getCollisionRect().y=yPos;
-		this.getCollisionRect().height = getHeight();
-		this.getCollisionRect().width = this.getWidth();
+			xPos-=30;
+			this.getCollisionRect().x=xPos;
+			this.getCollisionRect().y=yPos;
+			this.getCollisionRect().height = getHeight();
+			this.getCollisionRect().width = getWidth();
 		}
 
 		

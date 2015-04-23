@@ -93,7 +93,11 @@ public class GamePanel extends JPanel implements Runnable{
 			
 			checkCollisions();
 			removeObjects();
-			moveBall();
+			
+			if(ball.isLockedToPaddle() == false){
+				moveBall();
+			}
+			
 			checkKeyInput();
 			
 			
@@ -111,7 +115,11 @@ public class GamePanel extends JPanel implements Runnable{
 	}
 	
 	//********END MAIN THREAD LOOP********
-	
+	public void ballLaunched(){
+		ball.setLockedToPaddle(false);
+		moveBall();
+		
+	}
 	
 	private void checkCollisions()
 	{
@@ -137,6 +145,8 @@ public class GamePanel extends JPanel implements Runnable{
 
 	public void paintComponent(Graphics g){
 
+		super.paintComponent(g);
+		this.requestFocus();
 		//Need to paint this first, makes sure the ball is "above" the blocks
 		
 		for (Block block : blocks) {
@@ -146,6 +156,7 @@ public class GamePanel extends JPanel implements Runnable{
 					block.draw(g);
 				}		
 		}
+		
 		g.setColor(Color.BLACK);   
 		player.draw(g);
 		ball.draw(g);
@@ -178,13 +189,26 @@ public class GamePanel extends JPanel implements Runnable{
 		        if (key == KeyEvent.VK_LEFT || key == KeyEvent.VK_A) 
 		        {
 		            player.moveLeft();
+		            if(ball.isLockedToPaddle() == true){
+		        		ball.ballOnPaddleLetft();
+		        		repaint();
+		        	}
 		            repaint();
 		        }
 
 		        if (key == KeyEvent.VK_RIGHT || key == KeyEvent.VK_D) 
 		        {
 		            player.moveRight();
+		            player.moveLeft();
+		            if(ball.isLockedToPaddle() == true){
+		        		ball.ballOnPaddleRight();
+		        		repaint();
+		        	}
 		            repaint();
+		        }
+		        
+		        if(key == KeyEvent.VK_SPACE){
+		        	ballLaunched();
 		        }
 		    }
 		 

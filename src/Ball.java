@@ -23,17 +23,12 @@ import java.util.Random;
 
 public class Ball extends GameObject{
 	
-	public static final int ballWidth = 30;
-	public static final int ballHeight = 30;
+	public static final int ballWidth = 20;
+	public static final int ballHeight = 20;
 	
 	private int xVelocity;
 	private int yVelocity;
 	private Color ballColor;
-	
-
-	//Lets See if this works
-	private int currentX, currentY;
-
 
 	private boolean lockedToPaddle;
 
@@ -44,17 +39,19 @@ public class Ball extends GameObject{
 			super();
 			
 			
-			currentX =GamePanel.WIDTH/4;
-			currentY = 440;
-			collisionRect = new Rectangle(currentX, currentY, 0, 0);
+			xPos =GamePanel.WIDTH/4;
+			yPos = 440;
+			collisionRect = new Rectangle(xPos, yPos, 0, 0);
 
 			
 			ballColor = new Color(0,200,0);
-			//generator = new Random();
+			
 			// Set a constant velocity of  1:3 to create a nice steep angle
 			xVelocity = 1;
 			yVelocity = 3;
-			lockedToPaddle = false;
+			
+		//Set to true means that we haven't launched the ball
+			lockedToPaddle = true;
 			
 		}
 		
@@ -62,7 +59,7 @@ public class Ball extends GameObject{
 		public Ball(Image pImage)
 		{
 			super (pImage);
-			xPos = 50;
+		
 
 			yPos = GamePanel.HEIGHT - 100;
 			
@@ -75,24 +72,41 @@ public class Ball extends GameObject{
 		}
 		
 	
+		public void ballOnPaddleRight(){
+			setxPos(xPos + 30);
+			
+		}
+		
+		public void ballOnPaddleLetft(){
+			setxPos(xPos - 30);
+		}
+		
+		public boolean isLockedToPaddle() {
+			return lockedToPaddle;
+		}
+
+		public void setLockedToPaddle(boolean lockedToPaddle) {
+			this.lockedToPaddle = lockedToPaddle;
+		}
+
 		public void draw(Graphics g)
 		{
 			g.setColor(ballColor);
-			g.fillOval(currentX, currentY, ballWidth, ballHeight);
-			g.drawRect(currentX, currentY, ballWidth, ballHeight);
+			g.fillOval(xPos, yPos, ballWidth, ballHeight);
+			g.drawRect(xPos, yPos, ballWidth, ballHeight);
 		}
 
 		public void moveBall()
 		{
 
 
-			if (getCurrentX()+ ballWidth>GamePanel.WIDTH || getCurrentX()<0 )
+			if (getxPos()+ ballWidth>GamePanel.WIDTH || getxPos()<0 )
 			{
-				setxVelocity(-1* getxVelocity());
+				setxVelocity(-1* getyVelocity());
 			}
 			
 		
-			if(getCurrentY()+Ball.ballHeight >GamePanel.HEIGHT-100 || getCurrentY()<0)
+			if(getyPos()+Ball.ballHeight >GamePanel.HEIGHT-100 || getyPos()<0)
 			{
 				setyVelocity(-1* getyVelocity());
 			}
@@ -106,33 +120,12 @@ public class Ball extends GameObject{
 //			}
 			
 			
-			currentX = currentX + xVelocity;
-			currentY = currentY + yVelocity;
+			xPos = xPos + xVelocity;
+			yPos = yPos + yVelocity;
 			
 		}	
 
 		//Accessor and Mutator Methods
-		
-		
-		public int getxVelocity() {
-			return xVelocity;
-		}
-
-		public int getCurrentX() {
-			return currentX;
-		}
-
-		public void setCurrentX(int currentX) {
-			this.currentX = currentX;
-		}
-		
-		public int getCurrentY() {
-			return currentY;
-		}
-		
-		public void setCurrentY(int currentY) {
-			this.currentY = currentY;
-		}
 
 		public void setxVelocity(int xVelocity) {
 			this.xVelocity = xVelocity;
