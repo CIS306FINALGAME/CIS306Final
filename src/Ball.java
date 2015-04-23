@@ -17,6 +17,7 @@
 import java.awt.Color;
 import java.awt.Graphics;
 import java.awt.Image;
+import java.awt.Rectangle;
 import java.util.Random;
 
 
@@ -41,12 +42,12 @@ public class Ball extends GameObject{
 		public Ball()
 		{
 			super();
-			xPos = 0;
-
-			yPos = 0;
+			
 			
 			currentX =GamePanel.WIDTH/4;
-			currentY = 430;
+			currentY = 440;
+			collisionRect = new Rectangle(currentX, currentY, 0, 0);
+
 			
 			ballColor = new Color(0,200,0);
 			//generator = new Random();
@@ -64,7 +65,8 @@ public class Ball extends GameObject{
 			xPos = 50;
 
 			yPos = GamePanel.HEIGHT - 100;
-
+			
+			collisionRect = new Rectangle(xPos, yPos, 0, 0);
 			
 			// Set a constant velocity of  1:3 to create a nice steep angle
 			xVelocity = 2;
@@ -77,6 +79,7 @@ public class Ball extends GameObject{
 		{
 			g.setColor(ballColor);
 			g.fillOval(currentX, currentY, ballWidth, ballHeight);
+			g.drawRect(currentX, currentY, ballWidth, ballHeight);
 		}
 
 		public void moveBall()

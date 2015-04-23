@@ -17,6 +17,7 @@
 import java.awt.Color;
 import java.awt.Graphics;
 import java.awt.Image;
+import java.awt.Rectangle;
 import java.awt.event.KeyEvent;
 
 
@@ -32,6 +33,7 @@ public class Paddle extends GameObject{
 		super();
 		xPos = GamePanel.WIDTH/4;
 		yPos = 460;
+		collisionRect = new Rectangle(xPos, yPos, 0, 0);
 	
 		
 	}
@@ -41,8 +43,8 @@ public class Paddle extends GameObject{
 	{
 		super (pImage);
 		xPos = GamePanel.WIDTH/4;
-
 		yPos = 460;
+		collisionRect = new Rectangle(xPos, yPos, 0, 0);
 		
 		
 	}
@@ -53,12 +55,13 @@ public class Paddle extends GameObject{
 	{
 		if(getxPos() > 0){
 		xPos-=30;
-
 		this.getCollisionRect().x=xPos;
 		this.getCollisionRect().y=yPos;
 		this.getCollisionRect().height = getHeight();
 		this.getCollisionRect().width = this.getWidth();
 		}
+
+		
 
 	}
 	//Called from the Game Manger when the player presses the right arrow key
@@ -87,9 +90,10 @@ public class Paddle extends GameObject{
 public void draw (Graphics g) {
 	// TODO Auto-generated method stub
 	   {  
-		  // g.drawRect(200, 200, 300, 300); 
-		  // g.drawRect(xPos, yPos, xPos+100, yPos+50);   
+		   
 		   g.fillRect( xPos, yPos, 100, 10);
+		   g.setColor(Color.BLUE);
+		   g.drawRect(xPos, yPos, 103, 13);
 	   } // end method draw
 	
 }	

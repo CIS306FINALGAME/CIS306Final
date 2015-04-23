@@ -39,13 +39,14 @@ public class GamePanel extends JPanel implements Runnable{
 
 	public GamePanel() 
 	{
+		blocks = new ArrayList<Block>();
+		setupBlocks();
 		ball = new Ball();
 		player = new Paddle();
 
 		
 		this.setSize(WIDTH,HEIGHT);
-		blocks = new ArrayList<Block>();
-		setupBlocks();
+	
 		
 		lives = 3;
 		score = 0;
@@ -99,7 +100,7 @@ public class GamePanel extends JPanel implements Runnable{
 			repaint();
 			
 			try{
-				 Thread.sleep(100);
+				 Thread.sleep(40);
 			 }
 			 catch (InterruptedException exception){
 				 System.out.println("Thread exited due to interruption");
@@ -124,6 +125,7 @@ public class GamePanel extends JPanel implements Runnable{
 	
 	private void moveBall()
 	{
+		
 		ball.moveBall();
 	}
 	
@@ -135,18 +137,19 @@ public class GamePanel extends JPanel implements Runnable{
 
 	public void paintComponent(Graphics g){
 
+		//Need to paint this first, makes sure the ball is "above" the blocks
+		
+		for (Block block : blocks) {
+				//If block is not broken draw it otherwise do not draw it
+				if(!block.isBroken())
+				{
+					block.draw(g);
+				}		
+		}
 		g.setColor(Color.BLACK);   
 		player.draw(g);
 		ball.draw(g);
-		for (Block block : blocks) {
-			
-			//If block is not broken draw it otherwise do not draw it
-			if(!block.isBroken())
-			{
-				block.draw(g);
-			}
-			
-		}
+		
 	}
 	
 	
@@ -164,7 +167,6 @@ public class GamePanel extends JPanel implements Runnable{
 			{
 				blocks.add(new Block( i * 76 + 40, j * 26 + 40));
 			}
-		
 	}
 	
 	private class keysPressed implements KeyListener {
@@ -185,17 +187,19 @@ public class GamePanel extends JPanel implements Runnable{
 		            repaint();
 		        }
 		    }
-
+		 
+		 
+		 //DO NOT COMMENT OUT, NEED THIS FOR COLLISION RECTANGLE USAGE
 		    public void keyReleased(KeyEvent e) {
-//		        int key = e.getKeyCode();
-//
-//		        if (key == KeyEvent.VK_LEFT) {
-//		        	repaint();
-//		        }
-//
-//		        if (key == KeyEvent.VK_RIGHT) {
-//		        	repaint();
-//		        }
+		        int key = e.getKeyCode();
+
+		        if (key == KeyEvent.VK_LEFT) {
+		        	repaint();
+		        }
+
+		        if (key == KeyEvent.VK_RIGHT) {
+		        	repaint();
+		        }
 		    }
 
 			@Override
