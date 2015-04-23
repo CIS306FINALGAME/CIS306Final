@@ -15,10 +15,6 @@ public class GameManager extends JPanel {
 	
 
 	
-	private GamePanel game;
-	
-	private Paddle thePlayer;  //Player objects
-	
 	private ScorePanel scorePanel;
 	private GamePanel gamePanel;
 	private ControlPanel controlPanel;
@@ -26,10 +22,6 @@ public class GameManager extends JPanel {
 	private int lives; 	//Lives remaining
 	private int score;  //Score of the game
 	
-	ArrayList<Block> blocks;
-	
-	private Timer timer;
-	private boolean run;
 	
 	public GameManager()
 	{
@@ -37,8 +29,7 @@ public class GameManager extends JPanel {
 		lives = 3;
 		score = 0;
 		
-		blocks = new ArrayList<Block>();
-		//setupBlocks();
+		
 		
 		//Applet Setup
 		this.setSize(WIDTH, HEIGHT);
@@ -48,6 +39,7 @@ public class GameManager extends JPanel {
 		scorePanel = new ScorePanel(score,lives);
 		gamePanel = new GamePanel();
 		controlPanel = new ControlPanel();
+		
 		
 		//Add panels to applet
 		this.add(scorePanel,BorderLayout.NORTH);
@@ -60,29 +52,14 @@ public class GameManager extends JPanel {
 		controlPanel.stopButton.addActionListener(new buttonListener());
 				
 		
-		
-		
-		//Setup Timer and run bool for main thread
-		timer = new Timer(100, new TimerListener());
-		run = true;
-	
 	}
-	
-	//Start the timer object
-	public void startTimer()
-	{
-		timer.start();
-	}
-	
-	
 	
 	
 	//Draw the background, all of the falling objects in the list
 	//and all of the bullets that are active in the list
 	public void paintComponent(Graphics g)
 	{
-	
-		
+		super.paintComponent(g);		
 	}
 	
 	
@@ -164,8 +141,7 @@ public class GameManager extends JPanel {
 				// TODO Auto-generated method stub
 				if(e.getSource()==controlPanel.startButton)
 				{
-					timer.start();
-					run = true;
+					
 				}
 				else if(e.getSource()==controlPanel.stopButton)
 				{
@@ -178,6 +154,8 @@ public class GameManager extends JPanel {
 		{
 			System.out.println(input.toString());
 		}
+		
+		
 
 
 }

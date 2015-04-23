@@ -4,6 +4,7 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
+import java.util.ArrayList;
 
 import javax.swing.JPanel;
 import javax.swing.Timer;
@@ -19,17 +20,27 @@ import javax.swing.Timer;
 			// Set up Collision Nonsense
 public class GamePanel extends JPanel implements ActionListener{
 	
+	protected static int  WIDTH = 1000;
+	protected static int  HEIGHT = 600;
+	
 	private Paddle player;
 	private Ball ball;
 	private Timer timer;
-	protected static int  WIDTH = 1000;
-	protected static int  HEIGHT = 600;
+	
+	ArrayList<Block> blocks;
+	
+	private boolean run;
 	
 	public GamePanel() 
 	{
 		ball = new Ball();
 		player = new Paddle();
 		timer = new Timer(90, this);
+		
+		blocks = new ArrayList<Block>();
+		setupBlocks();
+		
+		
 		this.setBackground(Color.WHITE);		
 		this.addKeyListener(new keysPressed());
 	
@@ -45,6 +56,15 @@ public class GamePanel extends JPanel implements ActionListener{
 		g.setColor(Color.BLACK);   
 		player.draw(g);
 		ball.draw(g);
+		
+		for (Block block : blocks) {
+			
+			//If block is not broken draw it otherwise do not draw it
+			block.draw(g);
+			
+		}
+		
+		
 		timer.start();
 	}
 	
@@ -109,6 +129,20 @@ public class GamePanel extends JPanel implements ActionListener{
 			
 			repaint();
 		}
+	
+	
+	private void setupBlocks()
+	{
+		//Use this block as template for measurements
+		Block tempBlock = new Block(0, 0);
+		
+		for(int i = 0; i < 12; i++)
+			for(int j = 0; j < 5; j++)
+			{
+				blocks.add(new Block( i * 76 + 40, j * 26 + 40));
+			}
+		
+	}
 	
 }
 	
