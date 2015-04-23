@@ -33,7 +33,7 @@ public class Paddle extends GameObject{
 		super();
 		xPos = GamePanel.WIDTH/4;
 		yPos = 460;
-		collisionRect = new Rectangle(xPos, yPos, 0, 0);
+		collisionRect = new Rectangle(xPos, yPos, xPos+100, yPos+10);
 	
 		
 	}
@@ -44,7 +44,7 @@ public class Paddle extends GameObject{
 		super (pImage);
 		xPos = GamePanel.WIDTH/4;
 		yPos = 460;
-		collisionRect = new Rectangle(xPos, yPos, 0, 0);
+		collisionRect = new Rectangle(xPos, yPos, xPos+100, yPos+10);
 		
 		
 	}
@@ -54,11 +54,9 @@ public class Paddle extends GameObject{
 	public void moveLeft()
 	{
 		if(getxPos() > 0){
-			xPos-=30;
-			this.getCollisionRect().x=xPos;
-			this.getCollisionRect().y=yPos;
-			this.getCollisionRect().height = getHeight();
-			this.getCollisionRect().width = getWidth();
+			xPos-=30;	
+			collisionRect.x = this.xPos;
+			collisionRect.y = this.yPos;
 		}
 
 		
@@ -70,10 +68,8 @@ public class Paddle extends GameObject{
 		if(getxPos() + 110 < GamePanel.WIDTH ){
 		xPos+=30;
 
-		this.getCollisionRect().x=xPos;
-		this.getCollisionRect().y=yPos;
-		this.getCollisionRect().height = getHeight();
-		this.getCollisionRect().width = this.getWidth();
+		collisionRect.x = this.xPos;
+		collisionRect.y = this.yPos;
 		}
 
 	}
@@ -92,8 +88,9 @@ public void draw (Graphics g) {
 	   {  
 		   
 		   g.fillRect( xPos, yPos, 100, 10);
-		   g.setColor(Color.BLUE);
-		   g.drawRect(xPos, yPos, 103, 13);
+		   g.setColor(Color.RED);
+		   g.drawRect(collisionRect.x, collisionRect.y,100, 10);
+		
 	   } // end method draw
 	
 }	

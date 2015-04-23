@@ -38,16 +38,10 @@ public class Ball extends GameObject{
 		{
 			super();
 			
-			
 			xPos =GamePanel.WIDTH/4;
 			yPos = 440;
-
 			
-
 			collisionRect = new Rectangle(xPos, yPos, ballWidth, ballHeight);
-
-
-			
 			ballColor = new Color(0,200,0);
 			
 			// Set a constant velocity of  1:3 to create a nice steep angle
@@ -75,7 +69,9 @@ public class Ball extends GameObject{
 			
 		}
 		
-	
+	//Paddle Left and Right Methods
+			//IF the ball hasn't been launched yet
+				// Keep moving the ball with the paddle until we have launched it
 		public void ballOnPaddleRight(){
 			setxPos(xPos + 30);
 			
@@ -83,16 +79,16 @@ public class Ball extends GameObject{
 		
 		public void ballOnPaddleLetft(){
 			setxPos(xPos - 30);
-		}
-		
+		}	
 
+		/**
+		 * Draw method, sets the color to what we predetermine
+		 * Fill the oval, at the X,Y Pos and using the width and height
+		 */
 		public void draw(Graphics g)
 		{
 			g.setColor(ballColor);
 			g.fillOval(xPos, yPos, ballWidth, ballHeight);
-	
-			
-
 		}
 
 		public void moveBall()
@@ -111,25 +107,51 @@ public class Ball extends GameObject{
 			{
 				setyVelocity(-1* getyVelocity());
 			}
-	
 			// NEED THIS FOR LIFE COUNTS, ONCE WE DO COLLISIONS WE CAN ADD THIS BACK IN
-			if(getyPos()+Ball.ballHeight > 460){
+			if(getyPos()+Ball.ballHeight > 480){
 				setLockedToPaddle(true);
 				xPos =GamePanel.WIDTH/4;		
 				yPos = 440;						//	CHANGE ME WHEN WE START USING PICTURES
 				xVelocity = 2;
 				yVelocity = -3;	
-			}
-			
-			
+			}	
 			xPos = xPos + xVelocity;
 			yPos = yPos + yVelocity;
 			
 		}	
-
-		//Accessor and Mutator Methods
+		
+		//CRASHED INTO SOMETHING 
+		/**
+		 * Methods set up to change our velocity depending on if we crashed on the x or y planes
+		 * 
+		 * Will call these methods from the gamePanel, when we check for logic and figure out the collision
+		 */
+		public void crashedXPos(){
+			
+			collisionRect.x = this.xPos;
+			collisionRect.y = this.yPos;
+			
+			setxVelocity(-1* getxVelocity());
+			
+			xPos = xPos + xVelocity;
+			yPos = yPos + yVelocity;
+			
+		}
+		
+		public void crashedYPos(){
+			collisionRect.x = this.xPos;
+			collisionRect.y = this.yPos;			
+			
+			setyVelocity(-1* getyVelocity());
+			
+			xPos = xPos + xVelocity;
+			yPos = yPos + yVelocity;
+			
+			
+		}
 		
 
+		//Accessor and Mutator Methods
 		public boolean isLockedToPaddle() {
 			return lockedToPaddle;
 		}

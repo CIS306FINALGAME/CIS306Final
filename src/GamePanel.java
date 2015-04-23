@@ -134,7 +134,16 @@ public class GamePanel extends JPanel implements Runnable{
 			if(ball.collisionRect.intersects(block.collisionRect))
 			{
 				block.setBroken(true);
+				
+				//Need if statments to adjust based on the intersections points
+				//ball.crashedXPos();
+				//ball.crashedYPos();
 			}
+		}
+		// CEG: For Paddle Collisions, We are in business now boys
+		if(ball.collisionRect.intersects(player.collisionRect)){
+			ball.crashedYPos();
+			ball.crashedXPos();
 			
 		}
 		
