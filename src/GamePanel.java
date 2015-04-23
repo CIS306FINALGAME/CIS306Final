@@ -24,7 +24,6 @@ public class GamePanel extends JPanel implements Runnable{
 	
 	private Paddle player;
 	private Ball ball;
-	private Timer timer;
 
 
 
@@ -208,7 +207,6 @@ public class GamePanel extends JPanel implements Runnable{
 		            player.moveLeft();
 		            if(ball.isLockedToPaddle() == true){
 		        		ball.ballOnPaddleLetft();
-		        		repaint();
 		        	}
 		            repaint();
 		        }
@@ -216,10 +214,8 @@ public class GamePanel extends JPanel implements Runnable{
 		        if (key == KeyEvent.VK_RIGHT || key == KeyEvent.VK_D) 
 		        {
 		            player.moveRight();
-		            player.moveLeft();
 		            if(ball.isLockedToPaddle() == true){
 		        		ball.ballOnPaddleRight();
-		        		repaint();
 		        	}
 		            repaint();
 		        }
