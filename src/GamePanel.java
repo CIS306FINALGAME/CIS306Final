@@ -44,15 +44,13 @@ public class GamePanel extends JPanel implements Runnable{
 		
 		lives = 3;
 		score = 0;
-		
+	
+		run = false;
 		
 		this.setBackground(Color.WHITE);		
 		this.addKeyListener(new keysPressed());
 		this.setVisible(true);
-	
-		this.setFocusable(true);
-		repaint();
-	
+		this.setFocusable(true);	
 		
 	}
 	
@@ -60,6 +58,21 @@ public class GamePanel extends JPanel implements Runnable{
 	public void run() {
 		// TODO Auto-generated method stub
 		runGame();
+	}
+	
+	public void startGame()
+	{
+		run = true;
+	}
+	
+	public void pauseGame()
+	{
+		run = false;
+	}
+	
+	public void exitGame()
+	{
+		System.exit(ABORT);
 	}
 	
 	//********MAIN THREAD LOOP********
@@ -123,7 +136,6 @@ public class GamePanel extends JPanel implements Runnable{
 		}
 		
 		
-		timer.start();
 	}
 	
 	

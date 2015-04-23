@@ -13,10 +13,9 @@ public class ScorePanel extends JPanel {
 	
 	public ScorePanel()
 	{
+		
 		this.setBackground(Color.GRAY);
 		this.setLayout(new BorderLayout());
-		this.setVisible(true);
-		
 		
 		scoreLabel = new JLabel("Score:");
 		livesLabel = new JLabel("Lives:");	//Hard coded for now
@@ -29,6 +28,8 @@ public class ScorePanel extends JPanel {
 		
 		this.add(scoreLabel,BorderLayout.WEST);
 		this.add(livesLabel,BorderLayout.EAST);
+		
+		this.setVisible(true);
 	}
 	
 	

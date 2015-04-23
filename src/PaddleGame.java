@@ -16,6 +16,7 @@ import java.net.MalformedURLException;
 import java.net.URL;
 
 import javax.swing.JFrame;
+import javax.swing.JPanel;
 import javax.swing.Timer;
 import javax.imageio.ImageIO;
 import javax.swing.JApplet;
@@ -34,12 +35,11 @@ public class PaddleGame extends JFrame{
 	{		
 		this.setSize(WIDTH, HEIGHT);
 		this.setLayout(new BorderLayout());
-		this.setVisible(true);
 		
 		//Setup panels
 		scorePanel = new ScorePanel();
 		gamePanel = new GamePanel();
-		controlPanel = new ControlPanel();
+		controlPanel = new ControlPanel(gamePanel);
 		
 		
 		//Add panels to applet
@@ -49,7 +49,8 @@ public class PaddleGame extends JFrame{
 		
 		
 
-		
+		this.setVisible(true);
+
 		
 	}
 	
