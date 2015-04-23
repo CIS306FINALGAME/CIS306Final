@@ -15,7 +15,6 @@ import javax.swing.Timer;
 // A ball appears in a location but does not start moving yet
 			
 		//NEED TO DO
-			//- Protect Sides with the rectangle,cant move beyond the edges of the panel
 			// =Get the ball to move
 			// Set up Collision Nonsense
 public class GamePanel extends JPanel implements Runnable{

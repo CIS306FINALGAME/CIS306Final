@@ -28,7 +28,6 @@ public class Ball extends GameObject{
 	private int xVelocity;
 	private int yVelocity;
 	private Color ballColor;
-	private Random generator;
 	
 
 	//Lets See if this works
@@ -54,8 +53,6 @@ public class Ball extends GameObject{
 			// Set a constant velocity of  1:3 to create a nice steep angle
 			xVelocity = 1;
 			yVelocity = 3;
-			//xVelocity = generator.nextInt(10);
-			//yVelocity = generator.nextInt(10);
 			lockedToPaddle = false;
 			
 		}
@@ -103,62 +100,7 @@ public class Ball extends GameObject{
 			currentX = currentX + xVelocity;
 			currentY = currentY + yVelocity;
 			
-		}
-/**
-		// Check and see if the we crashed into a wall of the panel
-			// will look and see if it was on the top/bottom or left/right side
-				// manipulate the velocity for which one
-//		private void wallCrash(){
-//			if (getxPos()+ ballWidth>GamePanel.WIDTH)
-//			{
-//				setxVelocity(-1* getxPos());
-//			}
-//			
-//		
-//			if(getyPos()+Ball.ballHeight >GamePanel.HEIGHT)
-//			{
-//				setyVelocity(-1* getyPos());
-//			}
-//			
-//		}
-//
-//		// Check and see if the we crashed into a block
-//			// will look and see if it was on the x or y side
-//				// manipulate the velocity for which one
-//		private void blockCrash(){
-//			
-//			if (getxPos()+ ballWidth > Block.WIDTH)
-//			{
-//				setxVelocity(-1* getxPos());
-//			}
-//			
-//		
-//			if(getyPos()+Ball.ballHeight >Block.HEIGHT)
-//			{
-//				setyVelocity(-1* getyPos());
-//			}
-//			
-//		}
-		
-		// Check and see if we crashed into the paddle
-			// will look and see if it was on the x or y side
-				// manipulate the velocity for which one
-//		private void paddleCrash(){
-//			
-//			if (getxPos()+ ballWidth > Paddle.WIDTH)
-//			{
-//				setxVelocity(-1* getxPos());
-//			}
-//			
-//		
-//			if(getyPos()+Ball.ballHeight >Paddle.HEIGHT)
-//			{
-//				setyVelocity(-1* getyPos());
-//			}
-//			
-//		}
-		
-**/		
+		}	
 
 		//Accessor and Mutator Methods
 		
