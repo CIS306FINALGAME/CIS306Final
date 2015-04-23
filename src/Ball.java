@@ -41,7 +41,11 @@ public class Ball extends GameObject{
 			
 			xPos =GamePanel.WIDTH/4;
 			yPos = 440;
-			collisionRect = new Rectangle(xPos, yPos, 0, 0);
+
+			
+
+			collisionRect = new Rectangle(xPos, yPos, ballWidth, ballHeight);
+
 
 			
 			ballColor = new Color(0,200,0);
@@ -63,7 +67,7 @@ public class Ball extends GameObject{
 
 			yPos = GamePanel.HEIGHT - 100;
 			
-			collisionRect = new Rectangle(xPos, yPos, 0, 0);
+			collisionRect = new Rectangle(xPos, yPos, ballWidth, ballHeight);
 			
 			// Set a constant velocity of  1:3 to create a nice steep angle
 			xVelocity = 2;
@@ -93,12 +97,16 @@ public class Ball extends GameObject{
 		{
 			g.setColor(ballColor);
 			g.fillOval(xPos, yPos, ballWidth, ballHeight);
-			g.drawRect(xPos, yPos, ballWidth, ballHeight);
+	
+			g.drawRect(collisionRect.x, collisionRect.y, collisionRect.width, collisionRect.height);
+
 		}
 
 		public void moveBall()
 		{
-
+			
+			collisionRect.x = this.xPos;
+			collisionRect.y = this.yPos;
 
 			if (getxPos()+ ballWidth>GamePanel.WIDTH || getxPos()<0 )
 			{
@@ -126,6 +134,11 @@ public class Ball extends GameObject{
 		}	
 
 		//Accessor and Mutator Methods
+		
+		int getxVelocity() {
+			return xVelocity;
+		}
+
 
 		public void setxVelocity(int xVelocity) {
 			this.xVelocity = xVelocity;
