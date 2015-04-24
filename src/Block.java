@@ -10,6 +10,7 @@ public class Block extends GameObject{
 	public final int WIDTH = 75;
 	public final int HEIGHT = 25;
 	
+	
 	private int pointValue;
 	private boolean broken;
 	
@@ -19,7 +20,7 @@ public class Block extends GameObject{
 		//Need to add functionality to add images
 		xPos = pXPos;
 		yPos = pYPos;
-		pointValue = 10;
+		pointValue = 100;
 		broken = false;
 		collisionRect = new Rectangle(xPos,yPos,WIDTH,HEIGHT);
 	}
@@ -38,6 +39,7 @@ public class Block extends GameObject{
 	public void setBroken(boolean pBroken) {
 		this.broken = pBroken;
 	}
+	
 
 	@Override
 	public void draw(Graphics g) {
