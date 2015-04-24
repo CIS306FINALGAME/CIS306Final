@@ -18,7 +18,7 @@ public class ScorePanel extends JPanel {
 		this.setLayout(new BorderLayout());
 		
 		scoreLabel = new JLabel("Score:");
-		livesLabel = new JLabel("Lives:");	//Hard coded for now
+		livesLabel = new JLabel("Lives:" );	//Hard coded for now
 		
 		
 		//Setup empty borders to simulate padding
@@ -31,10 +31,7 @@ public class ScorePanel extends JPanel {
 		
 		this.setVisible(true);
 	}
-	
-	
-	
-	
+
 	public void setScoreLabel(int score)
 	{
 		scoreLabel.setText("Score: " + score);

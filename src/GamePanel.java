@@ -31,6 +31,8 @@ public class GamePanel extends JPanel implements Runnable{
 	ArrayList<Block> blocks;
 	
 	private int lives;
+	
+
 	private int score;
 	
 	private boolean run;
@@ -126,7 +128,9 @@ public class GamePanel extends JPanel implements Runnable{
 		moveBall();
 		
 	}
-	
+	//Checks for collisions across all gameObjects
+		//Blocks
+		//Player Paddle
 	private void checkCollisions()
 	{
 		for (Block block : blocks) {
@@ -136,41 +140,64 @@ public class GamePanel extends JPanel implements Runnable{
 				block.setBroken(true);
 				
 				//Need if statments to adjust based on the intersections points
-				//ball.crashedXPos();
-				//ball.crashedYPos();
+				ball.crashedXPos();
+				ball.crashedYPos();
 			}
 		}
 		// CEG: For Paddle Collisions, We are in business now boys
 		if(ball.collisionRect.intersects(player.collisionRect)){
 			ball.crashedYPos();
-			ball.crashedXPos();
-			
+			ball.crashedXPos();	
 		}
-		
-		
 	}
-	
+
+	public int getLives() {
+		return lives;
+	}
+
+	public void setLives(int lives) {
+		this.lives = lives;
+	}
+
 	//TBC : TODO : Get index of block before removing..remove throws exception
 	private void removeObjects()
 	{
-		
-		
 //		for (Block block : blocks) {
 //			if(block.isBroken())
 //			{
+//				
 //				blocks.remove(block);
 //			}
 //		}
+		
+		//CEG : Possible fix for index out of bounds error
+		
+		for(int i =0; i< blocks.size(); i++){
+			if(blocks.get(i).isBroken()){
+				blocks.remove(blocks.get(i));
+			}
+		}
 	}
 	
-	//Not sure if we really need this right now.
+	/**
+	 * Move ball method,
+	 * 			-Checks to see if the player dies or not
+	 * 			-If they do, call the ballReset Function, and pass in the postion of the paddle, so we put the ball back on it
+	 * Subtract one life from the player
+	 * 
+	 * Calls the move ball Function from the ball class
+	 * 
+	 * @author Chris
+	 */	
 	private void moveBall()
 	{
-		
+		if(ball.getyPos()+Ball.ballHeight > 480){
+			ball.ballReset(player.getxPos());
+			lives--;
+		}
 		ball.moveBall();
 	}
 	
-
 	public void paintComponent(Graphics g){
 		//Call Super paint function
 		super.paintComponent(g);
