@@ -55,7 +55,7 @@ public class GamePanel extends JPanel implements Runnable{
 		run = false;
 		
 
-		this.setBackground(Color.WHITE);		
+		this.setBackground(Color.BLACK);		
 		this.addKeyListener(new keysPressed());
 		this.setVisible(true);
 		this.setFocusable(true);	
@@ -103,7 +103,7 @@ public class GamePanel extends JPanel implements Runnable{
 			repaint();
 			
 			try{
-				 Thread.sleep(40);
+				 Thread.sleep(47);
 			 }
 			 catch (InterruptedException exception){
 				 System.out.println("Thread exited due to interruption");
@@ -140,14 +140,16 @@ public class GamePanel extends JPanel implements Runnable{
 				block.setBroken(true);
 				
 				//Need if statments to adjust based on the intersections points
-				ball.crashedXPos();
-				ball.crashedYPos();
+				//ball.crashedXPos();
+				//ball.crashedYPos();
 			}
 		}
 		// CEG: For Paddle Collisions, We are in business now boys
 		if(ball.collisionRect.intersects(player.collisionRect)){
+			//ball.crashedPaddle();
 			ball.crashedYPos();
-			ball.crashedXPos();	
+			ball.crashedXPos();
+			
 		}
 	}
 
@@ -170,14 +172,14 @@ public class GamePanel extends JPanel implements Runnable{
 //			}
 //		}
 		
-		//CEG : Possible fix for index out of bounds error
-			//Went for a simple for loop approach, just so we can grab the index we are sitting on
-		for(int i=0; i< blocks.size(); i++){
-			if(blocks.get(i).isBroken()){
-				blocks.remove(blocks.get(i));
-				score = score + blocks.get(i).getPoints();	
-			}
-		}
+//		//CEG : Possible fix for index out of bounds error
+//			//Went for a simple for loop approach, just so we can grab the index we are sitting on
+//		for(int i=0; i< blocks.size(); i++){
+//			if(blocks.get(i).isBroken()){
+//				blocks.remove(blocks.get(i));
+//				score = score + blocks.get(i).getPoints();	
+//			}
+//		}
 	}
 	
 	/**
@@ -214,7 +216,7 @@ public class GamePanel extends JPanel implements Runnable{
 				}		
 		}
 		//Set color to draw the paddle
-		g.setColor(Color.BLACK);   
+		g.setColor(Color.WHITE);   
 		//Draw our player and ball
 		player.draw(g);
 		ball.draw(g);

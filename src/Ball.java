@@ -32,11 +32,14 @@ public class Ball extends GameObject{
 
 	private boolean lockedToPaddle;
 
+	private Random generator;
 
 	//default no argument constructor
 		public Ball()
 		{
 			super();
+			
+			generator = new Random();
 			
 			xPos =GamePanel.WIDTH/4;
 			yPos = 440;
@@ -64,8 +67,8 @@ public class Ball extends GameObject{
 			collisionRect = new Rectangle(xPos, yPos, ballWidth, ballHeight);
 			
 			// Set a constant velocity of  2:-3 to create a nice steep angle
-			xVelocity = 2;
-			yVelocity = -3;
+			xVelocity = 6;
+			yVelocity = -9;
 			
 		}
 		
@@ -114,7 +117,7 @@ public class Ball extends GameObject{
 		private void panelCrashes() {
 			//Always check to make sure we don't hit the edges of the panel
 			//If we do, change the x, or y velocity depending of which panel piece we hit
-			if (getxPos()+ ballWidth>GamePanel.WIDTH || getxPos()<0 )
+			if (getxPos()+ ballWidth>GamePanel.WIDTH || getxPos()<3 )
 			{
 				setxVelocity(-1* getyVelocity());
 			}
@@ -144,25 +147,41 @@ public class Ball extends GameObject{
 		 * Will call these methods from the gamePanel, when we check for logic and figure out the collision
 		 * @author Chris
 		 */
+		public void crashedPaddle(){
+			collisionRect.x = this.xPos;
+			collisionRect.y = this.yPos;
+			
+			int tempVelocity = 1 + generator.nextInt(5);
+			setyVelocity(tempVelocity*getyVelocity());
+			setxVelocity(4* getxVelocity());
+			
+			
+			xPos = xPos + xVelocity;
+			yPos = yPos + yVelocity;
+		}
 		public void crashedXPos(){
 			collisionRect.x = this.xPos;
 			collisionRect.y = this.yPos;
 			
-			setxVelocity(-1* getxVelocity());
+			int tempVelocity = 1 + generator.nextInt(9);
+			setxVelocity(-1*tempVelocity*getxVelocity());
 			
 			xPos = xPos + xVelocity;
 			yPos = yPos + yVelocity;
+			
 		}
 		
 		public void crashedYPos(){
 			collisionRect.x = this.xPos;
 			collisionRect.y = this.yPos;			
 			
-			setyVelocity(-1* getyVelocity());
+			int tempVelocity = 1 + generator.nextInt(3);
+			setyVelocity(-1*tempVelocity*getyVelocity());
 			
 			xPos = xPos + xVelocity;
 			yPos = yPos + yVelocity;	
 		}
+		
 
 		//Accessor and Mutator Methods
 		public boolean isLockedToPaddle() {

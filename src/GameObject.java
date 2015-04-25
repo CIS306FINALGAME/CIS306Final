@@ -30,14 +30,13 @@ public abstract class GameObject {
 	private int width;   //width of the image
 	private int height; //height of the image
 	private boolean shouldDraw; //should the object be drawn
+	
 	protected Rectangle collisionRect; //collision rectangle
+	
 	
 	//Default no argument constructor for the GameObject (not called in this example)
 	public  GameObject()
 	{
-	
-	
-		
 		objectPic = null;
 		xPos = -100;
 		yPos = -100;
@@ -45,6 +44,7 @@ public abstract class GameObject {
 		height = 0;
 		shouldDraw = true;
 		collisionRect = null;
+		
 	}
 	
 	
@@ -58,6 +58,7 @@ public abstract class GameObject {
 		shouldDraw = true;
 		//Instantiate the bounding rectangle for the object
 		collisionRect = new Rectangle(xPos, yPos, 0, 0);
+		
 		
 	}
 
@@ -132,6 +133,7 @@ public abstract class GameObject {
 		return collisionRect;
 	}
 	
+
 	abstract public void draw(Graphics g);
 	
 

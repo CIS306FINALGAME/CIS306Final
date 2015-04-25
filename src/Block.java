@@ -44,15 +44,10 @@ public class Block extends GameObject{
 	@Override
 	public void draw(Graphics g) {
 		// TODO Auto-generated method stub
-		g.setColor(Color.BLUE);
+		g.setColor(Color.WHITE);
 
 		g.fillRect(xPos, yPos, WIDTH, HEIGHT);
-		
-		
-		
-		g.setColor(Color.RED);
-		
-		g.drawRect(collisionRect.x, collisionRect.y, collisionRect.width, collisionRect.height);
+
 	}
 	
 	
