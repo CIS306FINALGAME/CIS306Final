@@ -140,8 +140,7 @@ public class GamePanel extends JPanel implements Runnable{
 				block.setBroken(true);
 				
 				//Need if statments to adjust based on the intersections points
-				//ball.crashedXPos();
-				//ball.crashedYPos();
+					ball.crashedBlock();
 			}
 		}
 		// CEG: For Paddle Collisions, We are in business now boys
@@ -173,13 +172,13 @@ public class GamePanel extends JPanel implements Runnable{
 //		}
 		
 //		//CEG : Possible fix for index out of bounds error
-//			//Went for a simple for loop approach, just so we can grab the index we are sitting on
-//		for(int i=0; i< blocks.size(); i++){
-//			if(blocks.get(i).isBroken()){
-//				blocks.remove(blocks.get(i));
-//				score = score + blocks.get(i).getPoints();	
-//			}
-//		}
+			//Went for a simple for loop approach, just so we can grab the index we are sitting on
+		for(int i=0; i< blocks.size(); i++){
+			if(blocks.get(i).isBroken()){
+				blocks.remove(blocks.get(i));
+				score = score + blocks.get(i).getPoints();	
+			}
+		}
 	}
 	
 	/**

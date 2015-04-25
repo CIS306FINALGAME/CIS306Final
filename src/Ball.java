@@ -117,11 +117,11 @@ public class Ball extends GameObject{
 		private void panelCrashes() {
 			//Always check to make sure we don't hit the edges of the panel
 			//If we do, change the x, or y velocity depending of which panel piece we hit
-			if (getxPos()+ ballWidth>GamePanel.WIDTH || getxPos()<3 )
+			if (getxPos()+ ballWidth>GamePanel.WIDTH-10 || getxPos()<3 )
 			{
 				setxVelocity(-1* getyVelocity());
 			}
-			if(getyPos()+Ball.ballHeight >GamePanel.HEIGHT-100 || getyPos()<0)
+			if(getyPos()+Ball.ballHeight >GamePanel.HEIGHT-110 || getyPos()<3)
 			{
 				setyVelocity(-1* getyVelocity());
 			}
@@ -147,13 +147,13 @@ public class Ball extends GameObject{
 		 * Will call these methods from the gamePanel, when we check for logic and figure out the collision
 		 * @author Chris
 		 */
-		public void crashedPaddle(){
+		public void crashedBlock(){
 			collisionRect.x = this.xPos;
 			collisionRect.y = this.yPos;
 			
-			int tempVelocity = 1 + generator.nextInt(5);
-			setyVelocity(tempVelocity*getyVelocity());
-			setxVelocity(4* getxVelocity());
+			//int tempVelocity = 1 + generator.nextInt(5);
+			setyVelocity(-1*getyVelocity());
+			setxVelocity(-1* getxVelocity());
 			
 			
 			xPos = xPos + xVelocity;
