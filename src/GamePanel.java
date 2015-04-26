@@ -19,7 +19,7 @@ import javax.swing.Timer;
 			// Set up Collision Nonsense
 public class GamePanel extends JPanel implements Runnable{
 	
-	protected static int  WIDTH = 1000;
+	protected static int  WIDTH = 980;
 	protected static int  HEIGHT = 600;
 	
 	private Paddle player;

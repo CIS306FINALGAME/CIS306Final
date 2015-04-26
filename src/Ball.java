@@ -39,7 +39,7 @@ public class Ball extends GameObject{
 		{
 			super();
 			
-			generator = new Random();
+			generator = new Random(10);
 			
 			xPos =GamePanel.WIDTH/4;
 			yPos = 440;
@@ -67,8 +67,8 @@ public class Ball extends GameObject{
 			collisionRect = new Rectangle(xPos, yPos, ballWidth, ballHeight);
 			
 			// Set a constant velocity of  2:-3 to create a nice steep angle
-			xVelocity = 6;
-			yVelocity = -9;
+			xVelocity = 12;
+			yVelocity = -18;
 			
 		}
 		
@@ -104,7 +104,16 @@ public class Ball extends GameObject{
 			collisionRect.x = this.xPos;
 			collisionRect.y = this.yPos;
 
-			panelCrashes();	
+			//Always check to make sure we don't hit the edges of the panel
+			//If we do, change the x, or y velocity depending of which panel piece we hit
+			if (getxPos()+ ballWidth>GamePanel.WIDTH-10 || getxPos()<3 )
+			{
+				setxVelocity(-1* getyVelocity());
+			}
+			if(getyPos()+Ball.ballHeight >GamePanel.HEIGHT-110 || getyPos()<3)
+			{
+				setyVelocity(-1* getyVelocity());
+			}
 			
 			xPos = xPos + xVelocity;
 			yPos = yPos + yVelocity;
@@ -153,7 +162,7 @@ public class Ball extends GameObject{
 			
 			//int tempVelocity = 1 + generator.nextInt(5);
 			setyVelocity(-1*getyVelocity());
-			setxVelocity(-1* getxVelocity());
+			//setxVelocity(-1* getxVelocity());
 			
 			
 			xPos = xPos + xVelocity;
@@ -163,8 +172,8 @@ public class Ball extends GameObject{
 			collisionRect.x = this.xPos;
 			collisionRect.y = this.yPos;
 			
-			int tempVelocity = 1 + generator.nextInt(9);
-			setxVelocity(-1*tempVelocity*getxVelocity());
+			int tempVelocity = 1 + generator.nextInt(6);
+			setxVelocity(tempVelocity*getxVelocity());
 			
 			xPos = xPos + xVelocity;
 			yPos = yPos + yVelocity;
@@ -175,8 +184,8 @@ public class Ball extends GameObject{
 			collisionRect.x = this.xPos;
 			collisionRect.y = this.yPos;			
 			
-			int tempVelocity = 1 + generator.nextInt(3);
-			setyVelocity(-1*tempVelocity*getyVelocity());
+			//int tempVelocity = 1 + generator.nextInt(18);
+			setyVelocity(-1*getyVelocity());
 			
 			xPos = xPos + xVelocity;
 			yPos = yPos + yVelocity;	
