@@ -41,7 +41,7 @@ public class Ball extends GameObject{
 			
 			generator = new Random(10);
 			
-			xPos =GamePanel.WIDTH/4;
+			xPos = GamePanel.WIDTH/2;
 			yPos = 440;
 			
 			collisionRect = new Rectangle(xPos, yPos, ballWidth, ballHeight);
@@ -49,7 +49,7 @@ public class Ball extends GameObject{
 			
 			// Set a constant velocity of  1:3 to create a nice steep angle
 			xVelocity = 1;
-			yVelocity = -3;
+			yVelocity = -1;
 			
 		//Set to true means that we haven't launched the ball
 			lockedToPaddle = true;
@@ -78,13 +78,37 @@ public class Ball extends GameObject{
 		* Keep moving the ball with the paddle until we have launched it
 		* @author Chris
 		* 
+		* Update -
+		* Only move ball if the movement won't move it out of bounds on the paddle
+		* 
 		*/
 		public void ballOnPaddleRight(){
-			setxPos(xPos + 30);	
+			
+			boolean outOfBounds = false;
+			
+			if(xPos + 25 + ballWidth > GamePanel.WIDTH)
+			{
+				outOfBounds = true;
+			}
+				
+			if (outOfBounds == false) {
+				setxPos(xPos + 25);
+			}
+				
 		}
 		
 		public void ballOnPaddleLetft(){
-			setxPos(xPos - 30);
+			
+			boolean outOfBounds = false;
+			
+			if(xPos - 25 < 0)
+			{
+				outOfBounds = true;
+			}
+				
+			if (outOfBounds == false) {
+				setxPos(xPos - 25);
+			}
 		}	
 
 		/**
@@ -96,6 +120,10 @@ public class Ball extends GameObject{
 		{
 			g.setColor(ballColor);
 			g.fillOval(xPos, yPos, ballWidth, ballHeight);
+			
+			
+			g.setColor(Color.RED);
+			g.drawRect(collisionRect.x, collisionRect.y, collisionRect.width, collisionRect.height);
 		}
 
 		public void moveBall()
@@ -145,8 +173,8 @@ public class Ball extends GameObject{
 			setLockedToPaddle(true);
 			xPos = resetX;		
 			yPos = 440;						//	CHANGE ME WHEN WE START USING PICTURES
-			xVelocity = 2;
-			yVelocity = -3;	
+			xVelocity = 1;
+			yVelocity = -1;	
 		}
 		
 		//CRASHED INTO SOMETHING 
@@ -165,6 +193,7 @@ public class Ball extends GameObject{
 			//setxVelocity(-1* getxVelocity());
 			
 			
+			
 			xPos = xPos + xVelocity;
 			yPos = yPos + yVelocity;
 		}
@@ -172,8 +201,8 @@ public class Ball extends GameObject{
 			collisionRect.x = this.xPos;
 			collisionRect.y = this.yPos;
 			
-			int tempVelocity = 1 + generator.nextInt(6);
-			setxVelocity(tempVelocity*getxVelocity());
+			//int tempVelocity = 1 + generator.nextInt(6);
+			setxVelocity(-1*getxVelocity());
 			
 			xPos = xPos + xVelocity;
 			yPos = yPos + yVelocity;

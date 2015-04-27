@@ -35,15 +35,16 @@ public class PaddleGame extends JFrame{
 	{		
 		this.setSize(WIDTH, HEIGHT);
 		this.setLayout(new BorderLayout());
+		this.setResizable(false);
 		
 		//Setup panels
-		scorePanel = new ScorePanel();
 		gamePanel = new GamePanel();
+		//scorePanel = new ScorePanel(gamePanel);
 		controlPanel = new ControlPanel(gamePanel);
 		
 		
-		//Add panels to applet
-		this.add(scorePanel,BorderLayout.NORTH);
+		//Add panels to frame
+		//this.add(scorePanel,BorderLayout.NORTH);
 		this.add(gamePanel, BorderLayout.CENTER);
 		this.add(controlPanel, BorderLayout.SOUTH);
 		

@@ -27,8 +27,8 @@ public abstract class GameObject {
 	protected int yPos; //x and y position of the object
 	private Image objectPic;  //the picture of the object
 	//used to load the image
-	private int width;   //width of the image
-	private int height; //height of the image
+	protected int width;   //width of the image
+	protected int height; //height of the image
 	private boolean shouldDraw; //should the object be drawn
 	
 	protected Rectangle collisionRect; //collision rectangle
