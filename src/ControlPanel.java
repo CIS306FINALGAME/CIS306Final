@@ -51,8 +51,7 @@ public class ControlPanel extends JPanel {
 			if(e.getSource()==startButton)
 			{
 				gamePanelRef.startGame();
-				//Create a new thread in which is the drawing Panel
-				//You must pass the drawingPanel reference int
+				
 				Thread gameThread = new Thread(gamePanelRef);
 				//In order to tell the thread to run its run method, call the start method
 				gameThread.start();

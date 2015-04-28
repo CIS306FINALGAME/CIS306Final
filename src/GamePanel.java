@@ -1,11 +1,16 @@
+import java.awt.BorderLayout;
 import java.awt.Color;
 import java.awt.Graphics;
+import java.awt.LayoutManager;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
 import java.util.ArrayList;
 
+import javax.swing.JButton;
+import javax.swing.JFrame;
+import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.Timer;
 
@@ -34,6 +39,11 @@ public class GamePanel extends JPanel implements Runnable{
 	
 	private boolean run;
 	
+	
+	private JFrame endFrame;
+	private JButton playAgainButton;
+	private JButton exitButton;
+	
 
 	public GamePanel() 
 	{
@@ -43,15 +53,14 @@ public class GamePanel extends JPanel implements Runnable{
 		player = new Paddle();
 		
 		revertVelocity = false;
-		
-		this.setSize(WIDTH,HEIGHT);
-
 		run = false;
 		
+		this.setSize(WIDTH,HEIGHT);
 		this.setBackground(Color.BLACK);		
 		this.addKeyListener(new keysPressed());
 		this.setVisible(true);
 		this.setFocusable(true);	
+		
 	}
 
 	@Override
@@ -63,6 +72,7 @@ public class GamePanel extends JPanel implements Runnable{
 	public void startGame()
 	{
 		run = true;
+		
 	}
 	
 	public void pauseGame()
@@ -83,6 +93,7 @@ public class GamePanel extends JPanel implements Runnable{
 		
 		while(run) 
 		{
+				
 			//Calls Check collision
 			//Remove Object
 			//and Move Ball Functions for every iteration of the thread
@@ -98,8 +109,10 @@ public class GamePanel extends JPanel implements Runnable{
 			 */
 			if((ball.getxPos() <= GamePanel.WIDTH && ball.getyPos() <= GamePanel.HEIGHT) || ball.getxPos() >= 0){
 				revertVelocity = false;
-			}			
+			}	
+			
 			repaint();
+			checkEnd();
 			
 			try{
 				 Thread.sleep(10);
@@ -123,6 +136,76 @@ public class GamePanel extends JPanel implements Runnable{
 	public void ballLaunched(){
 		ball.setLockedToPaddle(false);
 		moveBall();
+		
+	}
+	
+	private void checkEnd()
+	{
+		//This is winning condition
+		if(blocks.isEmpty())
+		{
+			
+			run = false;
+			
+			endFrame = new JFrame();
+			JPanel endButtonPanel = new JPanel();
+			
+			JLabel winLabel = new JLabel("You Win!");
+			
+			playAgainButton = new JButton("Play Again"); 
+			exitButton = new JButton("Exit");
+			
+			
+			
+			endFrame.setLayout(new BorderLayout());
+			endFrame.setSize(300, 100);
+			endFrame.setLocation(GamePanel.WIDTH/2, GamePanel.HEIGHT/2);
+			
+			playAgainButton.addActionListener(new buttonListener());
+			exitButton.addActionListener(new buttonListener());
+			
+			endButtonPanel.add(playAgainButton);
+			endButtonPanel.add(exitButton);
+			
+			endFrame.add(winLabel,BorderLayout.CENTER);
+			endFrame.add(endButtonPanel, BorderLayout.SOUTH);
+			
+			
+			endFrame.setVisible(true);
+			endFrame.requestFocus();
+		}
+		
+		else if (ball.getyPos()+Ball.ballHeight > 480)
+		{
+			run = false;
+			
+			endFrame = new JFrame();
+			JPanel endButtonPanel = new JPanel();
+			
+			JLabel loseLabel = new JLabel("You Lose!");
+			
+			playAgainButton = new JButton("Play Again"); 
+			exitButton = new JButton("Exit");
+			
+			
+			
+			endFrame.setLayout(new BorderLayout());
+			endFrame.setSize(300, 100);
+			endFrame.setLocation(GamePanel.WIDTH/2, GamePanel.HEIGHT/2);
+			
+			playAgainButton.addActionListener(new buttonListener());
+			exitButton.addActionListener(new buttonListener());
+			
+			endButtonPanel.add(playAgainButton);
+			endButtonPanel.add(exitButton);
+			
+			endFrame.add(loseLabel,BorderLayout.CENTER);
+			endFrame.add(endButtonPanel, BorderLayout.SOUTH);
+			
+			
+			endFrame.setVisible(true);
+			endFrame.requestFocus();
+		}
 		
 	}
 	
@@ -208,6 +291,18 @@ public class GamePanel extends JPanel implements Runnable{
 		}
 		repaint();	
 	}
+	
+	
+	private void setupGame()
+	{
+		blocks = new ArrayList<Block>();
+		setupBlocks();
+		ball = new Ball();
+		player = new Paddle();
+		
+		revertVelocity = false;
+		run = false;
+	}
 		
 	private void setupBlocks()
 	{
@@ -222,6 +317,13 @@ public class GamePanel extends JPanel implements Runnable{
 			{
 				blocks.add(new Block( i * (blockWidth + 1) + offset, j * (blockHeight + 1) + offset));
 			}
+		
+//		for(int i = 0; i < 1; i++)
+//			for(int j = 0; j < 1; j++)
+//			{
+//				blocks.add(new Block( i * (blockWidth + 1) + offset, j * (blockHeight + 1) + offset));
+//			}
+		
 	}
 	
 	
@@ -315,6 +417,26 @@ public class GamePanel extends JPanel implements Runnable{
 				
 			}
 	}	
+	
+	private class buttonListener implements ActionListener
+	{
+		@Override
+		public void actionPerformed(ActionEvent e) {
+			// TODO Auto-generated method stub
+			if(e.getSource() == playAgainButton)
+			{
+				endFrame.dispose();
+				setupGame();
+				repaint();
+				
+			}
+			else if(e.getSource() == exitButton)
+			{
+				System.exit(ABORT);
+			}
+				
+		}
+	}
 
 	
 }

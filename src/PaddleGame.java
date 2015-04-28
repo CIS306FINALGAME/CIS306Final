@@ -55,6 +55,11 @@ public class PaddleGame extends JFrame{
 		
 	}
 	
+	public void testFunc()
+	{
+		System.out.println("From paddleGame");
+	}
+	
 	
 	public static void main(String[] args)
 	{
