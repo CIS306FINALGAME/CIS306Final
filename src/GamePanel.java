@@ -39,29 +39,17 @@ public class GamePanel extends JPanel implements Runnable{
 		setupBlocks();
 		ball = new Ball();
 		player = new Paddle();
-
 		
 		this.setSize(WIDTH,HEIGHT);
 
-	
 		run = false;
 		
-
 		this.setBackground(Color.BLACK);		
 		this.addKeyListener(new keysPressed());
 		this.setVisible(true);
 		this.setFocusable(true);	
-		
 	}
-	
-	
-	
-	
-	
-	
-	
-	
-	
+
 	@Override
 	public void run() 
 	{	
@@ -83,13 +71,7 @@ public class GamePanel extends JPanel implements Runnable{
 	{
 		System.exit(ABORT);
 	}
-	
-	
-	
-	
-	
-	
-	
+
 	//********MAIN THREAD LOOP********
 	
 	private void runGame()
@@ -117,17 +99,6 @@ public class GamePanel extends JPanel implements Runnable{
 	
 	//********END MAIN THREAD LOOP********
 	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
 	/**
 	 * Ball Launched Method
 	 * Is called when the "player" hits the space bar
@@ -147,76 +118,43 @@ public class GamePanel extends JPanel implements Runnable{
 		//Player Paddle
 	private void checkCollisions()
 	{
-		for (Block block : blocks) {
-			
-			
+		for (Block block : blocks) {	
 			if(ball.collisionRect.intersects(block.collisionRect))
 			{
 				block.setBroken(true);
 				
 				//Need if statments to adjust based on the intersections points
-				
-				if(	ball.collisionRect.x + ball.collisionRect.width >= block.collisionRect.x || 
-					ball.collisionRect.x <= block.collisionRect.x + block.collisionRect.width)
-				{
-					ball.crashedXPos();
-				}
-				
-				if(	ball.collisionRect.y + ball.collisionRect.height >= block.collisionRect.y ||
-					ball.collisionRect.y <= block.collisionRect.y + block.collisionRect.height)
-				{
-					ball.crashedYPos();
-				}
+						ball.crashedBlock();
 			}
 		}
+		
 		// CEG: For Paddle Collisions, We are in business now boys
 		if(ball.collisionRect.intersects(player.collisionRect)){
-			//ball.crashedPaddle();
-//			if(	ball.collisionRect.x + ball.collisionRect.width >= player.collisionRect.x || 
-//					ball.collisionRect.x <= player.collisionRect.x + player.collisionRect.width)
-//			{
-//				ball.crashedXPos();
-//			}
-//				
-//			if(	ball.collisionRect.y + ball.collisionRect.height >= player.collisionRect.y ||
-//				ball.collisionRect.y <= player.collisionRect.y + player.collisionRect.height)
-//			{
-//				ball.crashedYPos();
-//			}
-			
-			ball.crashedYPos();
+				ball.crashedPaddle();	
 		}
 		
-		//If ball moves to any constaint of panel, crash with panel and bounce
+		//If ball moves to any constraint of panel, crash with panel and bounce
 		if(	ball.xPos + ball.getWidth() >= GamePanel.WIDTH || 
-			ball.xPos <= 0)
+			ball.xPos + ball.getWidth() <= 10)
 		{
-			ball.crashedXPos();
+			ball.setxVelocity(-1* ball.getxVelocity());
 		}
 		
 		if(	ball.yPos + ball.getHeight() >= GamePanel.HEIGHT ||
-			ball.yPos <= 0)
+			ball.yPos + ball.getHeight() <= 0)
 		{
-			ball.crashedYPos();
+			ball.setyVelocity(-1* ball.getyVelocity());
 		}
-		
 	}
 
 	private void removeObjects()
 	{
-		
-//		//CEG : Possible fix for index out of bounds error
-			//Went for a simple for loop approach, just so we can grab the index we are sitting on
-		
 		for(int i=0; i< blocks.size(); i++){
 			
 			if(blocks.get(i).isBroken()){
-
 				blocks.remove(blocks.get(i));
-			}
-			
-		}
-		
+			}	
+		}	
 	}
 	
 	/**
@@ -230,8 +168,7 @@ public class GamePanel extends JPanel implements Runnable{
 	 * @author Chris
 	 */	
 	private void moveBall()
-	{
-		
+	{	
 		//Only if the ball has been launched do we allow the ball to keep moving
 		if(ball.isLockedToPaddle() == false)
 		{
@@ -242,9 +179,7 @@ public class GamePanel extends JPanel implements Runnable{
 			
 			ball.moveBall();
 		}
-		
-		repaint();
-		
+		repaint();	
 	}
 		
 	private void setupBlocks()

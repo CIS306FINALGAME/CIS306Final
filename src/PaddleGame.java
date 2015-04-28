@@ -28,7 +28,7 @@ public class PaddleGame extends JFrame{
 	private GamePanel gamePanel;
 	private ControlPanel controlPanel;
 	
-	public static int WIDTH = 1000;
+	public static int WIDTH = 1010;
 	public static int HEIGHT = 600;
 	
 	public PaddleGame()

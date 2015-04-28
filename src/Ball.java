@@ -147,22 +147,22 @@ public class Ball extends GameObject{
 			yPos = yPos + yVelocity;
 		}
 
-		/**	Checks to see if the ball is crashing into the edges of the panel
-		 * 
-		 * @author Chris
-		 */
-		private void panelCrashes() {
-			//Always check to make sure we don't hit the edges of the panel
-			//If we do, change the x, or y velocity depending of which panel piece we hit
-			if (getxPos()+ ballWidth>GamePanel.WIDTH-10 || getxPos()<3 )
-			{
-				setxVelocity(-1* getyVelocity());
-			}
-			if(getyPos()+Ball.ballHeight >GamePanel.HEIGHT-110 || getyPos()<3)
-			{
-				setyVelocity(-1* getyVelocity());
-			}
-		}	
+//		/**	Checks to see if the ball is crashing into the edges of the panel
+//		 * 
+//		 * @author Chris
+//		 */
+//		private void panelCrashes() {
+//			//Always check to make sure we don't hit the edges of the panel
+//			//If we do, change the x, or y velocity depending of which panel piece we hit
+//			if (getxPos()+ ballWidth>GamePanel.WIDTH-10 || getxPos()<3 )
+//			{
+//				setxVelocity(-1* getyVelocity());
+//			}
+//			if(getyPos()+Ball.ballHeight >GamePanel.HEIGHT-110 || getyPos()<3)
+//			{
+//				setyVelocity(-1* getyVelocity());
+//			}
+//		}	
 		
 		/**
 		 * Reset the Ball Location after it dies
@@ -191,32 +191,31 @@ public class Ball extends GameObject{
 			//int tempVelocity = 1 + generator.nextInt(5);
 			
 			setyVelocity(-1*getyVelocity());
-			
-			//setxVelocity(-1* getxVelocity());
-			
-			
-			
+
 			xPos = xPos + xVelocity;
 			yPos = yPos + yVelocity;
 		}
-		public void crashedXPos(){
+		
+		public void crashedPaddle(){
+				crashedYPos();
+				crashedXPos();
+		}
+		
+		private void crashedXPos(){
 			collisionRect.x = this.xPos;
 			collisionRect.y = this.yPos;
 			
 			//Randomizing part of the velocity, and adding one to make sure we dont get in going in a straight line
-			int tempVelocity = 1 + generator.nextInt(6);
-			setxVelocity(tempVelocity*getxVelocity());
+			//int tempVelocity = 1 + generator.nextInt(6);
+			setxVelocity(1*getxVelocity());
 
 			//int tempVelocity = 1 + generator.nextInt(6);
-			setxVelocity(-1*getxVelocity());
-
-			
 			xPos = xPos + xVelocity;
 			yPos = yPos + yVelocity;
 			
 		}
 		
-		public void crashedYPos(){
+		private void crashedYPos(){
 			collisionRect.x = this.xPos;
 			collisionRect.y = this.yPos;			
 			
