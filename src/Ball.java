@@ -100,7 +100,7 @@ public class Ball extends GameObject{
 
 		public void moveBall()
 		{
-			//Set the CollisionRectangle x,y to the postition of the ball
+			//Set the CollisionRectangle x,y to the position of the ball
 			collisionRect.x = this.xPos;
 			collisionRect.y = this.yPos;
 
@@ -161,7 +161,9 @@ public class Ball extends GameObject{
 			collisionRect.y = this.yPos;
 			
 			//int tempVelocity = 1 + generator.nextInt(5);
+			
 			setyVelocity(-1*getyVelocity());
+			
 			//setxVelocity(-1* getxVelocity());
 			
 			
@@ -172,6 +174,7 @@ public class Ball extends GameObject{
 			collisionRect.x = this.xPos;
 			collisionRect.y = this.yPos;
 			
+			//Randomizing part of the velocity, and adding one to make sure we dont get in going in a straight line
 			int tempVelocity = 1 + generator.nextInt(6);
 			setxVelocity(tempVelocity*getxVelocity());
 			

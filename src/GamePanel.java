@@ -25,9 +25,6 @@ public class GamePanel extends JPanel implements Runnable{
 	private Paddle player;
 	private Ball ball;
 
-
-
-	
 	ArrayList<Block> blocks;
 	
 	private int lives;
@@ -163,6 +160,7 @@ public class GamePanel extends JPanel implements Runnable{
 	//TBC : TODO : Get index of block before removing..remove throws exception
 	private void removeObjects()
 	{
+		
 //		for (Block block : blocks) {
 //			if(block.isBroken())
 //			{
@@ -174,10 +172,12 @@ public class GamePanel extends JPanel implements Runnable{
 //		//CEG : Possible fix for index out of bounds error
 			//Went for a simple for loop approach, just so we can grab the index we are sitting on
 		for(int i=0; i< blocks.size(); i++){
+			
 			if(blocks.get(i).isBroken()){
 				blocks.remove(blocks.get(i));
 				score = score + blocks.get(i).getPoints();	
 			}
+			
 		}
 	}
 	
@@ -232,6 +232,7 @@ public class GamePanel extends JPanel implements Runnable{
 			{
 				blocks.add(new Block( i * 76 + 40, j * 26 + 40));
 			}
+		
 	}
 	
 /**
