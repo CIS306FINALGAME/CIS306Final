@@ -28,6 +28,7 @@ public class GamePanel extends JPanel implements Runnable{
 	private Ball ball;
 	
 	private boolean revertVelocity;
+	private boolean blockCrushed;
 
 	ArrayList<Block> blocks;
 	
@@ -43,6 +44,7 @@ public class GamePanel extends JPanel implements Runnable{
 		player = new Paddle();
 		
 		revertVelocity = false;
+		blockCrushed = false;
 		
 		this.setSize(WIDTH,HEIGHT);
 
@@ -98,7 +100,11 @@ public class GamePanel extends JPanel implements Runnable{
 			 */
 			if((ball.getxPos() <= GamePanel.WIDTH && ball.getyPos() <= GamePanel.HEIGHT) || ball.getxPos() >= 0){
 				revertVelocity = false;
-			}			
+			}	
+			
+			if(ball.getyPos() >= GamePanel.HEIGHT/2){
+				blockCrushed = false;
+			}
 			repaint();
 			
 			try{
@@ -133,13 +139,16 @@ public class GamePanel extends JPanel implements Runnable{
 	{
 		
 		for (Block block : blocks) {	
-			if(ball.collisionRect.intersects(block.collisionRect))
+			if (blockCrushed == false)
 			{
-				block.setBroken(true);
-				
-				//Need if statments to adjust based on the intersections points
-						ball.crashedBlock();
+				if(ball.collisionRect.intersects(block.collisionRect)){
+					block.setBroken(true);
+					ball.crashedBlock();
+					blockCrushed = true;
+				}
+				blockCrushed = false;
 			}
+			
 		}
 		// CEG: For Paddle Collisions, We are in business now boys
 		if(ball.collisionRect.intersects(player.collisionRect)){
@@ -156,9 +165,10 @@ public class GamePanel extends JPanel implements Runnable{
 		{
 			//Sets the bool to true, and waits to make sure its back on the "screen"
 			if(ball.getxPos()>GamePanel.WIDTH || ball.getxPos() <= 0) {
-				revertVelocity=true;	
+				revertVelocity=true;
 				ball.setxVelocity(-1* ball.getxVelocity());
 			}
+			blockCrushed = false;
 		}
 			//If ball moves to any constraint of panel, crash with panel and bounce
 			// uses a bool value to make sure the ball gets back on the screen
@@ -170,6 +180,7 @@ public class GamePanel extends JPanel implements Runnable{
 				revertVelocity=true;	
 				ball.setyVelocity(-1* ball.getyVelocity());
 			}
+			blockCrushed = false;
 		}
 		
 	}
