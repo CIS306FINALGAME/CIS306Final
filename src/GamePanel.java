@@ -17,7 +17,7 @@ import org.omg.CORBA.PRIVATE_MEMBER;
 // A ball appears in a location but does not start moving yet
 			
 		//NEED TO DO
-			// =Get the ball to move
+			// Get the ball to move
 			// Set up Collision Nonsense
 public class GamePanel extends JPanel implements Runnable{
 	
@@ -26,6 +26,8 @@ public class GamePanel extends JPanel implements Runnable{
 	
 	private Paddle player;
 	private Ball ball;
+	
+	private boolean revertVelocity;
 
 	ArrayList<Block> blocks;
 	
@@ -39,6 +41,8 @@ public class GamePanel extends JPanel implements Runnable{
 		setupBlocks();
 		ball = new Ball();
 		player = new Paddle();
+		
+		revertVelocity = false;
 		
 		this.setSize(WIDTH,HEIGHT);
 
@@ -79,11 +83,22 @@ public class GamePanel extends JPanel implements Runnable{
 		
 		while(run) 
 		{
-			
+			//Calls Check collision
+			//Remove Object
+			//and Move Ball Functions for every iteration of the thread
 			checkCollisions();
 			removeObjects();
 			moveBall();
 			
+			/**
+			 * If statement to see if the ball is back on the screen
+			 * 		if its between the max gamePanel width and the gamePanel height, then revert the bool to false
+			 * 		Also if its greater then 10 to make sure if came on from the left side
+			 * 	Is always checked during the running of the thread
+			 */
+			if((ball.getxPos() <= GamePanel.WIDTH && ball.getyPos() <= GamePanel.HEIGHT) || ball.getxPos() >= 10){
+				revertVelocity = false;
+			}			
 			repaint();
 			
 			try{
@@ -91,10 +106,8 @@ public class GamePanel extends JPanel implements Runnable{
 			 }
 			 catch (InterruptedException exception){
 				 System.out.println("Thread exited due to interruption");
-			 }
-			
+			 }	
 		}
-
 	}
 	
 	//********END MAIN THREAD LOOP********
@@ -118,6 +131,7 @@ public class GamePanel extends JPanel implements Runnable{
 		//Player Paddle
 	private void checkCollisions()
 	{
+		
 		for (Block block : blocks) {	
 			if(ball.collisionRect.intersects(block.collisionRect))
 			{
@@ -127,24 +141,37 @@ public class GamePanel extends JPanel implements Runnable{
 						ball.crashedBlock();
 			}
 		}
-		
 		// CEG: For Paddle Collisions, We are in business now boys
 		if(ball.collisionRect.intersects(player.collisionRect)){
-				ball.crashedPaddle();	
+			
+				ball.crashedPaddle();
 		}
 		
 		//If ball moves to any constraint of panel, crash with panel and bounce
-		if(	ball.xPos + ball.getWidth() >= GamePanel.WIDTH || 
-			ball.xPos + ball.getWidth() <= 10)
+				// uses a bool value to make sure the ball gets back on the screen
+				// checks to see if its the max,min width, or the max min height
+		
+		if((revertVelocity==false) && (ball.getxPos() + ball.getWidth() >= GamePanel.WIDTH || ball.getxPos() <= 10))
+			
 		{
-			ball.setxVelocity(-1* ball.getxVelocity());
+			//Sets the bool to true, and waits to make sure its back on the "screen"
+			if(ball.getxPos()>GamePanel.WIDTH || ball.getxPos() <= 10) {
+				revertVelocity=true;	
+				ball.setxVelocity(-1* ball.getxVelocity());
+			}
+		}
+			//If ball moves to any constraint of panel, crash with panel and bounce
+			// uses a bool value to make sure the ball gets back on the screen
+			// checks to see if its the max,min widht or max,min height
+		if((revertVelocity==false) && (ball.getyPos() + ball.getHeight() >= GamePanel.HEIGHT || ball.getyPos() <= 0))
+		{
+			//Sets the bool to true, and waits to make sure its back on the "screen"
+			if(ball.getyPos()>GamePanel.WIDTH || ball.getyPos() <= 0){
+				revertVelocity=true;	
+				ball.setyVelocity(-1* ball.getyVelocity());
+			}
 		}
 		
-		if(	ball.yPos + ball.getHeight() >= GamePanel.HEIGHT ||
-			ball.yPos + ball.getHeight() <= 0)
-		{
-			ball.setyVelocity(-1* ball.getyVelocity());
-		}
 	}
 
 	private void removeObjects()
@@ -267,8 +294,7 @@ public class GamePanel extends JPanel implements Runnable{
 			        }
 		        }
 		    }
-		 
-		 
+ 
 		 //DO NOT COMMENT OUT, NEED THIS FOR COLLISION RECTANGLE USAGE
 		 //Not really sure why, but Im not asking any questions -CEG
 		    public void keyReleased(KeyEvent e) {

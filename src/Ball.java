@@ -132,17 +132,17 @@ public class Ball extends GameObject{
 			collisionRect.x = this.xPos;
 			collisionRect.y = this.yPos;
 
-			//Always check to make sure we don't hit the edges of the panel
-			//If we do, change the x, or y velocity depending of which panel piece we hit
-			if (getxPos()+ ballWidth>GamePanel.WIDTH-10 || getxPos()<3 )
-			{
-				setxVelocity(-1* getyVelocity());
-			}
-			if(getyPos()+Ball.ballHeight >GamePanel.HEIGHT-110 || getyPos()<3)
-			{
-				setyVelocity(-1* getyVelocity());
-			}
-			
+//			//Always check to make sure we don't hit the edges of the panel
+//			//If we do, change the x, or y velocity depending of which panel piece we hit
+//			if (getxPos()+ ballWidth>GamePanel.WIDTH-10 || getxPos()<3 )
+//			{
+//				setxVelocity(-1* getyVelocity());
+//			}
+//			if(getyPos()+Ball.ballHeight >GamePanel.HEIGHT-110 || getyPos()<3)
+//			{
+//				setyVelocity(-1* getyVelocity());
+//			}
+//			
 			xPos = xPos + xVelocity;
 			yPos = yPos + yVelocity;
 		}
