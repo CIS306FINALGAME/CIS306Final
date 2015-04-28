@@ -11,14 +11,20 @@ public class ScorePanel extends JPanel {
 	private JLabel scoreLabel;
 	private JLabel livesLabel;
 	
-	public ScorePanel()
+	private GamePanel gamePanelRef;
+	
+	
+	
+	
+	public ScorePanel(GamePanel pGamePanelRef)
 	{
+		gamePanelRef = pGamePanelRef;
 		
 		this.setBackground(Color.GRAY);
 		this.setLayout(new BorderLayout());
 		
-		scoreLabel = new JLabel("Score:");
-		livesLabel = new JLabel("Lives:" );	//Hard coded for now
+		scoreLabel = new JLabel("Score: ");
+		livesLabel = new JLabel("Lives: ");	
 		
 		
 		//Setup empty borders to simulate padding
@@ -31,7 +37,11 @@ public class ScorePanel extends JPanel {
 		
 		this.setVisible(true);
 	}
-
+	
+	
+	
+	
+	
 	public void setScoreLabel(int score)
 	{
 		scoreLabel.setText("Score: " + score);

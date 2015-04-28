@@ -7,11 +7,7 @@ import java.util.Random;
 
 public class Block extends GameObject{
 
-	public final int WIDTH = 75;
-	public final int HEIGHT = 25;
 	
-	
-	private int pointValue;
 	private boolean broken;
 	
 	
@@ -20,16 +16,14 @@ public class Block extends GameObject{
 		//Need to add functionality to add images
 		xPos = pXPos;
 		yPos = pYPos;
-		pointValue = 100;
+		
+		width = 75;
+		height = 25; 
+		
 		broken = false;
-		collisionRect = new Rectangle(xPos,yPos,WIDTH,HEIGHT);
+		collisionRect = new Rectangle(xPos,yPos,width,height);
 	}
 	
-	
-	public int getPoints()
-	{
-		return pointValue;
-	}
 	
 	public boolean isBroken()
 	{
@@ -45,8 +39,12 @@ public class Block extends GameObject{
 	public void draw(Graphics g) {
 		// TODO Auto-generated method stub
 		g.setColor(Color.WHITE);
-
-		g.fillRect(xPos, yPos, WIDTH, HEIGHT);
+		g.fillRect(xPos, yPos, width, height);
+		
+		
+		g.setColor(Color.RED);
+		g.drawRect(collisionRect.x, collisionRect.y, collisionRect.width, collisionRect.height);
+		
 
 	}
 	

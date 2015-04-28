@@ -23,17 +23,18 @@ import java.awt.event.KeyEvent;
 
 public class Paddle extends GameObject{
 
-	private int lives = 3;
-
-
 	
 	//default no argument constructor
 	public Paddle()
 	{
 		super();
-		xPos = GamePanel.WIDTH/4;
+		xPos = GamePanel.WIDTH/2;
 		yPos = 460;
-		collisionRect = new Rectangle(xPos, yPos, xPos+100, yPos+10);
+		
+		width = 100;
+		height = 10;
+		
+		collisionRect = new Rectangle(xPos, yPos, width, height);
 	
 		
 	}
@@ -44,7 +45,7 @@ public class Paddle extends GameObject{
 		super (pImage);
 		xPos = GamePanel.WIDTH/4;
 		yPos = 460;
-		collisionRect = new Rectangle(xPos, yPos, xPos+100, yPos+10);
+		collisionRect = new Rectangle(xPos, yPos, width, height);
 		
 		
 	}
@@ -54,7 +55,7 @@ public class Paddle extends GameObject{
 	public void moveLeft()
 	{
 		if(getxPos() > 0){
-			xPos-=30;	
+			xPos-=25;	
 			collisionRect.x = this.xPos;
 			collisionRect.y = this.yPos;
 		}
@@ -65,8 +66,8 @@ public class Paddle extends GameObject{
 	//Called from the Game Manger when the player presses the right arrow key
 	public void moveRight()
 	{
-		if(getxPos() + 110 < GamePanel.WIDTH ){
-		xPos+=30;
+		if(getxPos() + width < GamePanel.WIDTH ){
+		xPos+=25;
 
 		collisionRect.x = this.xPos;
 		collisionRect.y = this.yPos;
@@ -74,24 +75,18 @@ public class Paddle extends GameObject{
 
 	}
 		
-	public int getLives() {
-		return lives;
-	}
 
-	public void setLives(int lives) {
-		this.lives = lives;
-	}
-   // draw rectangle
-		   
-public void draw (Graphics g) {
-	// TODO Auto-generated method stub
-	   {  
-		   
-		   g.fillRect( xPos, yPos, 100, 10);
-		   g.setColor(Color.RED);
-		   g.drawRect(collisionRect.x, collisionRect.y,100, 10);
-		
-	   } // end method draw
 	
-}	
+	
+	public void draw (Graphics g) {
+	// TODO Auto-generated method stub
+		   
+		   g.fillRect( xPos, yPos, width, height);
+		   
+		   
+		   g.setColor(Color.RED);
+		   g.drawRect(collisionRect.x, collisionRect.y, collisionRect.width, collisionRect.height);
+		
+	
+	}	
 }
