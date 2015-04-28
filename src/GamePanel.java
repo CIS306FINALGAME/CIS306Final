@@ -96,7 +96,7 @@ public class GamePanel extends JPanel implements Runnable{
 			 * 		Also if its greater then 10 to make sure if came on from the left side
 			 * 	Is always checked during the running of the thread
 			 */
-			if((ball.getxPos() <= GamePanel.WIDTH && ball.getyPos() <= GamePanel.HEIGHT) || ball.getxPos() >= 10){
+			if((ball.getxPos() <= GamePanel.WIDTH && ball.getyPos() <= GamePanel.HEIGHT) || ball.getxPos() >= 0){
 				revertVelocity = false;
 			}			
 			repaint();
@@ -151,11 +151,11 @@ public class GamePanel extends JPanel implements Runnable{
 				// uses a bool value to make sure the ball gets back on the screen
 				// checks to see if its the max,min width, or the max min height
 		
-		if((revertVelocity==false) && (ball.getxPos() + ball.getWidth() >= GamePanel.WIDTH || ball.getxPos() <= 10))
+		if((revertVelocity==false) && (ball.getxPos() + ball.getWidth() >= GamePanel.WIDTH || ball.getxPos() <= 0))
 			
 		{
 			//Sets the bool to true, and waits to make sure its back on the "screen"
-			if(ball.getxPos()>GamePanel.WIDTH || ball.getxPos() <= 10) {
+			if(ball.getxPos()>GamePanel.WIDTH || ball.getxPos() <= 0) {
 				revertVelocity=true;	
 				ball.setxVelocity(-1* ball.getxVelocity());
 			}
@@ -212,8 +212,8 @@ public class GamePanel extends JPanel implements Runnable{
 	private void setupBlocks()
 	{
 		
-		final int blockWidth = 75;
-		final int blockHeight = 25;
+		final int blockWidth = 76;
+		final int blockHeight = 16;
 		final int offset = 40;
 		
 		

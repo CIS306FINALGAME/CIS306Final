@@ -84,8 +84,8 @@ public class Paddle extends GameObject{
 		   g.fillRect( xPos, yPos, width, height);
 		   
 		   
-		   g.setColor(Color.RED);
-		   g.drawRect(collisionRect.x, collisionRect.y, collisionRect.width, collisionRect.height);
+//		   g.setColor(Color.RED);
+//		   g.drawRect(collisionRect.x, collisionRect.y, collisionRect.width, collisionRect.height);
 		
 	
 	}	

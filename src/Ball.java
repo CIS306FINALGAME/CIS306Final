@@ -23,8 +23,8 @@ import java.util.Random;
 
 public class Ball extends GameObject{
 	
-	public static final int ballWidth = 20;
-	public static final int ballHeight = 20;
+	public static final int ballWidth = 15;
+	public static final int ballHeight = 15;
 	
 	private int xVelocity;
 	private int yVelocity;
@@ -32,20 +32,16 @@ public class Ball extends GameObject{
 
 	private boolean lockedToPaddle;
 
-	private Random generator;
-
 	//default no argument constructor
 		public Ball()
 		{
 			super();
 			
-			generator = new Random(10);
-			
 			xPos = GamePanel.WIDTH/2;
-			yPos = 440;
+			yPos = 445;
 			
 			collisionRect = new Rectangle(xPos, yPos, ballWidth, ballHeight);
-			ballColor = new Color(0,200,0);
+			ballColor = new Color(200,200,250);
 			
 			// Set a constant velocity of  1:3 to create a nice steep angle
 			xVelocity = 1;
@@ -122,8 +118,8 @@ public class Ball extends GameObject{
 			g.fillOval(xPos, yPos, ballWidth, ballHeight);
 			
 			
-			g.setColor(Color.RED);
-			g.drawRect(collisionRect.x, collisionRect.y, collisionRect.width, collisionRect.height);
+//			g.setColor(Color.RED);
+//			g.drawRect(collisionRect.x, collisionRect.y, collisionRect.width, collisionRect.height);
 		}
 
 		public void moveBall()
@@ -172,7 +168,7 @@ public class Ball extends GameObject{
 		public void ballReset(int resetX){
 			setLockedToPaddle(true);
 			xPos = resetX;		
-			yPos = 440;						//	CHANGE ME WHEN WE START USING PICTURES
+			yPos = 445;						//	CHANGE ME WHEN WE START USING PICTURES
 			xVelocity = 1;
 			yVelocity = -1;	
 		}

@@ -18,7 +18,7 @@ public class Block extends GameObject{
 		yPos = pYPos;
 		
 		width = 75;
-		height = 25; 
+		height = 15; 
 		
 		broken = false;
 		collisionRect = new Rectangle(xPos,yPos,width,height);
@@ -42,8 +42,8 @@ public class Block extends GameObject{
 		g.fillRect(xPos, yPos, width, height);
 		
 		
-		g.setColor(Color.RED);
-		g.drawRect(collisionRect.x, collisionRect.y, collisionRect.width, collisionRect.height);
+//		g.setColor(Color.RED);
+//		g.drawRect(collisionRect.x, collisionRect.y, collisionRect.width, collisionRect.height);
 		
 
 	}
