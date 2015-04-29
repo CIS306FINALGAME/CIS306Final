@@ -1,8 +1,10 @@
+import java.awt.BorderLayout;
 import java.awt.Color;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
 import javax.swing.JButton;
+import javax.swing.JLabel;
 import javax.swing.JPanel;
 
 
@@ -11,6 +13,8 @@ public class ControlPanel extends JPanel {
 	protected JButton startButton;
 	protected JButton pauseButton;
 	protected JButton exitButton;
+	
+	protected JLabel godModeLabel;
 	
 	private GamePanel gamePanelRef;
 	
@@ -27,17 +31,31 @@ public class ControlPanel extends JPanel {
 		this.add(exitButton);
 		
 		
+		godModeLabel = new JLabel("God Mode Enabled");
+		this.add(godModeLabel, BorderLayout.WEST);
+		godModeLabel.setVisible(false);
+		
 		startButton.addActionListener(new buttonListener());
 		pauseButton.addActionListener(new buttonListener());
 		exitButton.addActionListener(new buttonListener());
 		
-		
 		pauseButton.setEnabled(false);
-		
 		
 		this.setBackground(Color.GRAY);
 		this.setVisible(true);
 		
+	}
+	
+	public void setGodModeLabel(boolean pEnabled)
+	{
+		if(pEnabled)
+		{
+			godModeLabel.setVisible(true);
+		}
+		else 
+		{
+			godModeLabel.setVisible(false);
+		}
 	}
 	
 	

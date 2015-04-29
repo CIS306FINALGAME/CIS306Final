@@ -3,6 +3,7 @@ import java.awt.Color;
 import java.awt.Graphics;
 import java.awt.Graphics2D;
 import java.awt.Image;
+import java.awt.LayoutManager;
 import java.awt.Rectangle;
 import java.awt.Shape;
 import java.awt.Toolkit;
@@ -17,6 +18,7 @@ import java.net.URL;
 
 import javax.swing.JFrame;
 import javax.swing.JPanel;
+import javax.swing.SwingConstants;
 import javax.swing.Timer;
 import javax.imageio.ImageIO;
 import javax.swing.JApplet;
@@ -35,6 +37,8 @@ public class PaddleGame extends JFrame{
 		this.setSize(WIDTH, HEIGHT);
 		this.setLayout(new BorderLayout());
 		this.setResizable(false);
+		this.setTitle("Paddle Game");
+		this.setLocation(200,100);
 		
 		//Setup panels
 		gamePanel = new GamePanel(this);
@@ -56,6 +60,11 @@ public class PaddleGame extends JFrame{
 	public void setPause(boolean pEnabled)
 	{
 		controlPanel.pauseButton.setEnabled(pEnabled);
+	}
+	
+	public void setGodModeLabel(boolean pEnabled)
+	{
+		controlPanel.setGodModeLabel(pEnabled);
 	}
 	
 	

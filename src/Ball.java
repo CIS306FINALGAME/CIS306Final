@@ -37,11 +37,11 @@ public class Ball extends GameObject{
 		{
 			super();
 			
-			xPos = GamePanel.WIDTH/2;
+			xPos = (GamePanel.WIDTH/2) - (ballWidth/2);
 			yPos = 445;
 			
 			collisionRect = new Rectangle(xPos, yPos, ballWidth, ballHeight);
-			ballColor = new Color(200,200,250);
+			ballColor = new Color(150,150,250);
 			
 			// Set a constant velocity of  1:3 to create a nice steep angle
 			xVelocity = 1;

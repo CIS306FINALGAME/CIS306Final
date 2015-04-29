@@ -1,3 +1,4 @@
+
 import java.awt.BorderLayout;
 import java.awt.Color;
 import java.awt.Graphics;
@@ -6,6 +7,8 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
+import java.io.IOException;
+import java.net.URL;
 import java.util.ArrayList;
 
 import javax.swing.JButton;
@@ -14,6 +17,11 @@ import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.SwingConstants;
 import javax.swing.Timer;
+import javax.sound.sampled.AudioInputStream;
+import javax.sound.sampled.AudioSystem;
+import javax.sound.sampled.Clip;
+import javax.sound.sampled.LineUnavailableException;
+import javax.sound.sampled.UnsupportedAudioFileException;
 
 import org.omg.CORBA.PRIVATE_MEMBER;
 
@@ -30,15 +38,20 @@ public class GamePanel extends JPanel implements Runnable{
 	protected final static int  WIDTH = 1000;
 	protected final static int  HEIGHT = 600;
 	
+	private Clip launch;
+	private Clip blip;
+	
 	private Paddle player;
 	private Ball ball;
 	
 	private boolean revertVelocity;
+	private boolean blockCrushed;
+	private boolean run;
+	private boolean godmode;
 
 	ArrayList<Block> blocks;
 	
 	
-	private boolean run;
 	
 	private PaddleGame padGameRef;
 	
@@ -51,13 +64,7 @@ public class GamePanel extends JPanel implements Runnable{
 	{
 		padGameRef = pPadGameRef;
 		
-		blocks = new ArrayList<Block>();
-		setupBlocks();
-		ball = new Ball();
-		player = new Paddle();
-		
-		revertVelocity = false;
-		run = false;
+		setupGame();
 		
 		this.setSize(WIDTH,HEIGHT);
 		this.setBackground(Color.BLACK);		
@@ -65,8 +72,13 @@ public class GamePanel extends JPanel implements Runnable{
 		this.setVisible(true);
 		this.setFocusable(true);	
 		
-	}
 
+		// load sounds and set currentSound
+		loadLaunchSound();
+		loadBlipSound();
+		
+		
+	}
 
 	@Override
 	public void run() 
@@ -89,6 +101,11 @@ public class GamePanel extends JPanel implements Runnable{
 	public void exitGame()
 	{
 		System.exit(ABORT);
+	}
+	
+	public void setGodMode(boolean pEnable)
+	{
+		godmode = pEnable;
 	}
 
 	//********MAIN THREAD LOOP********
@@ -116,6 +133,10 @@ public class GamePanel extends JPanel implements Runnable{
 				revertVelocity = false;
 			}	
 			
+
+			if(ball.getyPos() >= GamePanel.HEIGHT/2){
+				blockCrushed = false;
+			}
 			repaint();
 			checkEnd();
 			
@@ -130,6 +151,7 @@ public class GamePanel extends JPanel implements Runnable{
 	
 	//********END MAIN THREAD LOOP********
 	
+
 	/**
 	 * Ball Launched Method
 	 * Is called when the "player" hits the space bar
@@ -140,78 +162,34 @@ public class GamePanel extends JPanel implements Runnable{
 	 */
 	public void ballLaunched(){
 		ball.setLockedToPaddle(false);
+		launch.setFramePosition(0);
+		launch.start();
 		moveBall();
 		
 	}
 	
+	/**
+	 * Check for ending condition of victory or loss, unless godmode is enabled, in which case the ball is just reset and the game continues (i.e. cannot lose) 
+	 * 
+	 * @author Travis
+	 */
 	private void checkEnd()
 	{
-		//This is winning condition
 		if(blocks.isEmpty())
 		{
-			
-			run = false;
-			
-			endFrame = new JFrame();
-			JPanel endButtonPanel = new JPanel();
-			
-			JLabel endLabel = new JLabel("You Win!");
-			endLabel.setHorizontalAlignment(SwingConstants.CENTER);
-			
-			playAgainButton = new JButton("Play Again"); 
-			exitButton = new JButton("Exit");
-			
-			
-			
-			endFrame.setLayout(new BorderLayout());
-			endFrame.setSize(300, 100);
-			endFrame.setLocation(300,300);
-			
-			playAgainButton.addActionListener(new buttonListener());
-			exitButton.addActionListener(new buttonListener());
-			
-			endButtonPanel.add(playAgainButton);
-			endButtonPanel.add(exitButton);
-			
-			endFrame.add(endLabel,BorderLayout.CENTER);
-			endFrame.add(endButtonPanel, BorderLayout.SOUTH);
-			
-			
-			endFrame.setVisible(true);
-			endFrame.requestFocus();
+			endgameDialogBox("You Win!");
 		}
 		
 		else if (ball.getyPos()+Ball.ballHeight > 480)
 		{
-			run = false;
-			
-			endFrame = new JFrame();
-			JPanel endButtonPanel = new JPanel();
-			
-			JLabel endLabel = new JLabel("You Lose!");
-			endLabel.setHorizontalAlignment(SwingConstants.CENTER);
-			
-			playAgainButton = new JButton("Play Again"); 
-			exitButton = new JButton("Exit");
-			
-			
-			
-			endFrame.setLayout(new BorderLayout());
-			endFrame.setSize(300, 100);
-			endFrame.setLocation(300,300);
-			
-			playAgainButton.addActionListener(new buttonListener());
-			exitButton.addActionListener(new buttonListener());
-			
-			endButtonPanel.add(playAgainButton);
-			endButtonPanel.add(exitButton);
-			
-			endFrame.add(endLabel,BorderLayout.CENTER);
-			endFrame.add(endButtonPanel, BorderLayout.SOUTH);
-			
-			
-			endFrame.setVisible(true);
-			endFrame.requestFocus();
+			if(godmode)
+			{
+				ball.ballReset(player.getxPos() + player.getWidth()/2 - ball.getWidth()/2);
+			}
+			else 
+			{
+				endgameDialogBox("You Lose!");
+			}			
 		}
 		
 	}
@@ -223,17 +201,28 @@ public class GamePanel extends JPanel implements Runnable{
 	{
 		
 		for (Block block : blocks) {	
-			if(ball.collisionRect.intersects(block.collisionRect))
+			if (blockCrushed == false)
 			{
-				block.setBroken(true);
-				
-				//Need if statments to adjust based on the intersections points
-						ball.crashedBlock();
+				// Set frame equal to 0 to ensure we are at the beginning of the audio clip
+				// Start the audio clip
+				if(ball.collisionRect.intersects(block.collisionRect)){
+					blip.setFramePosition(0);
+					blip.start();
+					block.setBroken(true);
+					ball.crashedBlock();
+					blockCrushed = true;
+
+				}
+				blockCrushed = false;
 			}
+			
 		}
 		// CEG: For Paddle Collisions, We are in business now boys
+			// Set frame equal to 0 to ensure we are at the beginning of the audio clip
+			// Start the audio clip
 		if(ball.collisionRect.intersects(player.collisionRect)){
-			
+				blip.setFramePosition(0);
+				blip.start();
 				ball.crashedPaddle();
 		}
 		
@@ -246,9 +235,10 @@ public class GamePanel extends JPanel implements Runnable{
 		{
 			//Sets the bool to true, and waits to make sure its back on the "screen"
 			if(ball.getxPos()>GamePanel.WIDTH || ball.getxPos() <= 0) {
-				revertVelocity=true;	
+				revertVelocity=true;
 				ball.setxVelocity(-1* ball.getxVelocity());
 			}
+			blockCrushed = false;
 		}
 			//If ball moves to any constraint of panel, crash with panel and bounce
 			// uses a bool value to make sure the ball gets back on the screen
@@ -260,10 +250,15 @@ public class GamePanel extends JPanel implements Runnable{
 				revertVelocity=true;	
 				ball.setyVelocity(-1* ball.getyVelocity());
 			}
+			blockCrushed = false;
 		}
 		
 	}
-
+	
+	/**
+	 * Remove all broken blocks from list to approach end condition
+	 * @author Travis
+	 */
 	private void removeObjects()
 	{
 		for(int i=0; i< blocks.size(); i++){
@@ -289,10 +284,7 @@ public class GamePanel extends JPanel implements Runnable{
 		//Only if the ball has been launched do we allow the ball to keep moving
 		if(ball.isLockedToPaddle() == false)
 		{
-			if(ball.getyPos()+Ball.ballHeight > 480)
-			{
-				ball.ballReset(player.getxPos());
-			}
+			
 			
 			ball.moveBall();
 		}
@@ -300,6 +292,44 @@ public class GamePanel extends JPanel implements Runnable{
 	}
 	
 	
+	
+	private void endgameDialogBox(String pMessage)
+	{
+		run = false;
+		
+		endFrame = new JFrame();
+		JPanel endButtonPanel = new JPanel();
+		
+		JLabel endLabel = new JLabel(pMessage);
+		endLabel.setHorizontalAlignment(SwingConstants.CENTER);
+		
+		playAgainButton = new JButton("Play Again"); 
+		exitButton = new JButton("Exit");
+		
+		//Set location to center of GamePanel
+		endFrame.setSize(300, 100);
+		endFrame.setLocation(padGameRef.getX() + this.getWidth()/2 - endFrame.getWidth()/2, padGameRef.getY() + this.getHeight()/2 - endFrame.getHeight()/2);
+		endFrame.setLayout(new BorderLayout());
+		endFrame.setTitle("Game Over!");
+		
+		playAgainButton.addActionListener(new buttonListener());
+		exitButton.addActionListener(new buttonListener());
+		
+		endButtonPanel.add(playAgainButton);
+		endButtonPanel.add(exitButton);
+		
+		endFrame.add(endLabel,BorderLayout.CENTER);
+		endFrame.add(endButtonPanel, BorderLayout.SOUTH);
+		
+		
+		endFrame.setVisible(true);
+		endFrame.requestFocus();
+	}
+	
+	/**
+	 * Setup game method to setup game settings for each time game is played
+	 * @author Travis
+	 */
 	private void setupGame()
 	{
 		blocks = new ArrayList<Block>();
@@ -311,22 +341,28 @@ public class GamePanel extends JPanel implements Runnable{
 		padGameRef.setPause(false);
 		
 		revertVelocity = false;
+		blockCrushed = false;
 		run = false;
+		godmode = false;
 	}
-		
+	
+	/**
+	 * Setup main block level layout
+	 * @author Travis
+	 */
 	private void setupBlocks()
 	{
-		
-		final int blockWidth = 76;
-		final int blockHeight = 16;
+		final int blockWidth = 75;
+		final int blockHeight = 15;
 		final int offset = 40;
-		
 		
 		for(int i = 0; i < 12; i++)
 			for(int j = 0; j < 5; j++)
 			{
-				blocks.add(new Block( i * (blockWidth + 1) + offset, j * (blockHeight + 1) + offset));
+				blocks.add(new Block( i * (blockWidth + 2) + offset, j * (blockHeight + 2) + offset));
 			}
+		
+		//Testing for end condition --> One Block
 		
 //		for(int i = 0; i < 1; i++)
 //			for(int j = 0; j < 1; j++)
@@ -360,6 +396,75 @@ public class GamePanel extends JPanel implements Runnable{
 		ball.draw(g);
 		
 	}
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	/**
+	 * 	Audio Clip Load Methods
+	 * 		Two different ones
+	 * 			~LuanchLoad
+	 * 			~Blip Load
+	 * 
+	 */
+	public void loadLaunchSound()
+	{
+		 try {
+	         // Open an audio input stream.
+	         URL url = this.getClass().getClassLoader().getResource("launch.wav");
+	         AudioInputStream audioIn = AudioSystem.getAudioInputStream(url);
+	         // Get a sound clip resource.
+	         launch = AudioSystem.getClip();
+	         // Open audio clip and load samples from the audio input stream.
+	         launch.open(audioIn);
+	         
+	      } 
+		 catch (UnsupportedAudioFileException e) {
+	         e.printStackTrace();
+	      } 
+		 catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+	      } 
+		 catch (LineUnavailableException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+      }
+	public void loadBlipSound()
+	{
+		 try {
+	         // Open an audio input stream.
+	         URL url = this.getClass().getClassLoader().getResource("collisionBlip.wav");
+	         AudioInputStream audioIn = AudioSystem.getAudioInputStream(url);
+	         // Get a sound clip resource.
+	         blip = AudioSystem.getClip();
+	         // Open audio clip and load samples from the audio input stream.
+	         blip.open(audioIn);
+	         
+	      } 
+		 catch (UnsupportedAudioFileException e) {
+	         e.printStackTrace();
+	      } 
+		 catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+	      } 
+		 catch (LineUnavailableException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+      }
+
 
 	
 /**
@@ -404,6 +509,20 @@ public class GamePanel extends JPanel implements Runnable{
 			        if(key == KeyEvent.VK_SPACE){
 			        	ballLaunched();
 			        }
+			        
+			        if(key == KeyEvent.VK_G)
+			        {
+			        	if(godmode == true)
+			        	{
+			        		setGodMode(false);
+			        		padGameRef.setGodModeLabel(false);
+			        	}
+			        	else 
+			        	{
+			        		setGodMode(true);
+			        		padGameRef.setGodModeLabel(true);
+						}
+			        }
 		        }
 		    }
  
@@ -426,8 +545,14 @@ public class GamePanel extends JPanel implements Runnable{
 			public void keyTyped(KeyEvent e) {
 				
 			}
-	}	
+	}
 	
+	/**
+	 * 
+	 * Button listener to be applied to dialog box shown when end game condition is met.
+	 * @author Travis
+	 *
+	 */
 	private class buttonListener implements ActionListener
 	{
 		@Override
@@ -435,9 +560,9 @@ public class GamePanel extends JPanel implements Runnable{
 			// TODO Auto-generated method stub
 			if(e.getSource() == playAgainButton)
 			{
-				endFrame.dispose();
-				setupGame();
-				repaint();
+				endFrame.dispose();		//Delete the dialog box
+				setupGame();			//Setup a fresh game
+				repaint();				//Repaint the screen
 				
 			}
 			else if(e.getSource() == exitButton)

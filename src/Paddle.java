@@ -28,15 +28,14 @@ public class Paddle extends GameObject{
 	public Paddle()
 	{
 		super();
-		xPos = GamePanel.WIDTH/2;
-		yPos = 460;
 		
 		width = 100;
 		height = 10;
 		
-		collisionRect = new Rectangle(xPos, yPos, width, height);
-	
+		xPos = (GamePanel.WIDTH/2) - (width/2);
+		yPos = 460;
 		
+		collisionRect = new Rectangle(xPos, yPos, width, height);
 	}
 	
 	//overloaded constructor
