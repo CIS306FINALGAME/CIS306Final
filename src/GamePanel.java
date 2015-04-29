@@ -25,46 +25,61 @@ import javax.sound.sampled.UnsupportedAudioFileException;
 
 import org.omg.CORBA.PRIVATE_MEMBER;
 
-// All kinds of stuff going on in this
-			// Have a rectangle able to move back and forth across the screen for every time you press an arrow key
-
-// A ball appears in a location but does not start moving yet
-			
-		//NEED TO DO
-			// Get the ball to move
-			// Set up Collision Nonsense
+/**
+ * Class Name: GamePanel
+ * Purpose:
+ * 		This is location of the majority of the game's logic. Inside the game panel is the main thread execution and the functions 
+ * 		that go along with it. The game panel is the main drawing panel on the center of the window. This is where the Paddle, Ball,
+ * 		and blocks will be drawn. 
+ * 		
+ * @author Travis
+ *
+ */
 public class GamePanel extends JPanel implements Runnable{
 	
-	protected final static int  WIDTH = 1000;
+	//Panel dimensions
+	protected final static int  WIDTH = 1000; 
 	protected final static int  HEIGHT = 600;
 	
+	//Audio
 	private Clip launch;
 	private Clip blip;
 	
+	//Game Objects
 	private Paddle player;
 	private Ball ball;
 	
-	private boolean revertVelocity;
-	private boolean blockCrushed;
-	private boolean run;
+	//For if the ball leaves the GamePanel, to make invert the direction and stop inverting until the ball is back in the panel
+	private boolean revertVelocity;		
+	private boolean blockCrushed;		
+	private boolean run;				
 	private boolean godmode;
 
+	//Arraylist of Blocks
 	ArrayList<Block> blocks;
 	
-	
-	
+	//Reference to PaddleGame
 	private PaddleGame padGameRef;
 	
+	//GUI components for End Condition Dialog
 	private JFrame endFrame;
 	private JButton playAgainButton;
 	private JButton exitButton;
 	
-
+	//Constructor
 	public GamePanel(PaddleGame pPadGameRef) 
 	{
 		padGameRef = pPadGameRef;
 		
-		setupGame();
+		blocks = new ArrayList<Block>();
+		setupBlocks();
+		ball = new Ball();
+		player = new Paddle();
+		
+		revertVelocity = false;
+		blockCrushed = false;
+		run = false;
+		godmode = false;
 		
 		this.setSize(WIDTH,HEIGHT);
 		this.setBackground(Color.BLACK);		
@@ -79,7 +94,9 @@ public class GamePanel extends JPanel implements Runnable{
 		
 		
 	}
-
+	
+	
+	//...Pretty self documenting I think
 	@Override
 	public void run() 
 	{	
@@ -108,7 +125,7 @@ public class GamePanel extends JPanel implements Runnable{
 		godmode = pEnable;
 	}
 
-	//********MAIN THREAD LOOP********
+	//********START MAIN THREAD LOOP********
 	
 	private void runGame()
 	{
@@ -116,9 +133,7 @@ public class GamePanel extends JPanel implements Runnable{
 		while(run) 
 		{
 				
-			//Calls Check collision
-			//Remove Object
-			//and Move Ball Functions for every iteration of the thread
+			//For every iteration of thread, check to see what has collided. Then remove any broken blocks. Finally move the ball.
 			checkCollisions();
 			removeObjects();
 			moveBall();
@@ -137,8 +152,11 @@ public class GamePanel extends JPanel implements Runnable{
 			if(ball.getyPos() >= GamePanel.HEIGHT/2){
 				blockCrushed = false;
 			}
+			
+			//Now update the screen and check to see if the game winning or losing condition has been met
 			repaint();
 			checkEnd();
+			
 			
 			try{
 				 Thread.sleep(10);
@@ -175,13 +193,16 @@ public class GamePanel extends JPanel implements Runnable{
 	 */
 	private void checkEnd()
 	{
+		//If player has destroyed all blocks they win
 		if(blocks.isEmpty())
 		{
 			endgameDialogBox("You Win!");
 		}
 		
+		//If ball falls below the paddle, they lose unless godmode
 		else if (ball.getyPos()+Ball.ballHeight > 480)
 		{
+			//If godMode is turned on, the ball just resets to the paddle and the game continues.
 			if(godmode)
 			{
 				ball.ballReset(player.getxPos() + player.getWidth()/2 - ball.getWidth()/2);
@@ -272,9 +293,7 @@ public class GamePanel extends JPanel implements Runnable{
 	/**
 	 * Move ball method,
 	 * 			-Checks to see if the player dies or not
-	 * 			-If they do, call the ballReset Function, and pass in the postion of the paddle, so we put the ball back on it
-	 * Subtract one life from the player
-	 * 
+	 * 	
 	 * Calls the move ball Function from the ball class
 	 * 
 	 * @author Chris
@@ -284,25 +303,30 @@ public class GamePanel extends JPanel implements Runnable{
 		//Only if the ball has been launched do we allow the ball to keep moving
 		if(ball.isLockedToPaddle() == false)
 		{
-			
-			
 			ball.moveBall();
 		}
-		repaint();	
+		//repaint();	
 	}
 	
 	
-	
+	/**
+	 * Setup the endGame Dialog box. Prompt the user to play again or exit the game.
+	 * @author Travis
+	 */
 	private void endgameDialogBox(String pMessage)
 	{
+		//Stop the thread
 		run = false;
 		
+		//Setup the dialog box
 		endFrame = new JFrame();
 		JPanel endButtonPanel = new JPanel();
 		
+		//Show message based on ending condition. i.e whether they won or lost
 		JLabel endLabel = new JLabel(pMessage);
 		endLabel.setHorizontalAlignment(SwingConstants.CENTER);
 		
+		//Create buttons
 		playAgainButton = new JButton("Play Again"); 
 		exitButton = new JButton("Exit");
 		
@@ -312,34 +336,42 @@ public class GamePanel extends JPanel implements Runnable{
 		endFrame.setLayout(new BorderLayout());
 		endFrame.setTitle("Game Over!");
 		
+		//Add listeners to buttons
 		playAgainButton.addActionListener(new buttonListener());
 		exitButton.addActionListener(new buttonListener());
 		
+		//Add buttons to panel 
 		endButtonPanel.add(playAgainButton);
 		endButtonPanel.add(exitButton);
 		
+		//Add label and panel to dialogBox
 		endFrame.add(endLabel,BorderLayout.CENTER);
 		endFrame.add(endButtonPanel, BorderLayout.SOUTH);
 		
-		
+		//Show and focus
 		endFrame.setVisible(true);
 		endFrame.requestFocus();
 	}
 	
 	/**
-	 * Setup game method to setup game settings for each time game is played
+	 * Setup game method to setup game settings for consecutive time game is played
 	 * @author Travis
 	 */
 	private void setupGame()
 	{
+		//Setup the blocks 
 		blocks = new ArrayList<Block>();
 		setupBlocks();
+		
+		//Setup Game Objects
 		ball = new Ball();
 		player = new Paddle();
 		
+		//Enable/Disable the buttons appropriately
 		padGameRef.setStart(true);
 		padGameRef.setPause(false);
 		
+		//Reset to default conditions
 		revertVelocity = false;
 		blockCrushed = false;
 		run = false;
@@ -355,26 +387,31 @@ public class GamePanel extends JPanel implements Runnable{
 		final int blockWidth = 75;
 		final int blockHeight = 15;
 		final int offset = 40;
+		final int columns = 12;
+		final int rows = 5;
+		final int spacing = 2;
 		
-		for(int i = 0; i < 12; i++)
-			for(int j = 0; j < 5; j++)
+		for(int i = 0; i < columns; i++)
+			for(int j = 0; j < rows; j++)
 			{
-				blocks.add(new Block( i * (blockWidth + 2) + offset, j * (blockHeight + 2) + offset));
+				blocks.add(new Block( i * (blockWidth + spacing) + offset, j * (blockHeight + spacing) + offset));
 			}
 		
-		//Testing for end condition --> One Block
-		
+		//Test for end condition with single block
 //		for(int i = 0; i < 1; i++)
 //			for(int j = 0; j < 1; j++)
 //			{
-//				blocks.add(new Block( i * (blockWidth + 1) + offset, j * (blockHeight + 1) + offset));
+//				blocks.add(new Block( i * (blockWidth + spacing) + offset, j * (blockHeight + spacing) + offset));
 //			}
 		
 	}
 	
 	
 	
-
+	/**
+	 * Method called on repaint. Request focus, then paint all the objects to the panel based on their positions and statuses.
+	 * @author Travis
+	 */
 	public void paintComponent(Graphics g){
 		//Call Super paint function
 		super.paintComponent(g);
@@ -475,6 +512,8 @@ public class GamePanel extends JPanel implements Runnable{
  *			-If its right or D move right
  *	- Set up space bar event handler
  *			- Actually allows the player to launch the ball when they are ready to
+ *  - Set up "G" key as cheat code to enable godMode
+ *  		- God mode will ensure it is impossible to lose the game or die
  *
  * @author Chris
  *
@@ -526,17 +565,15 @@ public class GamePanel extends JPanel implements Runnable{
 		        }
 		    }
  
-		 //DO NOT COMMENT OUT, NEED THIS FOR COLLISION RECTANGLE USAGE
-		 //Not really sure why, but Im not asking any questions -CEG
 		    public void keyReleased(KeyEvent e) {
 		        int key = e.getKeyCode();
 		        
 		        
-		        if (key == KeyEvent.VK_LEFT) {
+		        if (key == KeyEvent.VK_LEFT || key == KeyEvent.VK_A) {
 		        	repaint();
 		        }
 
-		        if (key == KeyEvent.VK_RIGHT) {
+		        if (key == KeyEvent.VK_RIGHT || key == KeyEvent.VK_D) {
 		        	repaint();
 		        }
 		    }
@@ -557,7 +594,8 @@ public class GamePanel extends JPanel implements Runnable{
 	{
 		@Override
 		public void actionPerformed(ActionEvent e) {
-			// TODO Auto-generated method stub
+			
+			//If user chooses to play again, dispose of the dialog and setup a new game
 			if(e.getSource() == playAgainButton)
 			{
 				endFrame.dispose();		//Delete the dialog box
@@ -565,6 +603,8 @@ public class GamePanel extends JPanel implements Runnable{
 				repaint();				//Repaint the screen
 				
 			}
+			
+			//If the user chooses to exit, exit the application
 			else if(e.getSource() == exitButton)
 			{
 				System.exit(ABORT);

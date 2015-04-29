@@ -23,17 +23,28 @@ import javax.swing.Timer;
 import javax.imageio.ImageIO;
 import javax.swing.JApplet;
 
-
+/**
+ * Class Name: PaddleGame
+ * Purpose: 	
+ * 		PaddleGame serves as the overall container. It is where the panels are housed as well as where the main[] of the application is
+ * 		executed. 
+ * 
+ * @author Travis
+ *
+ */
 public class PaddleGame extends JFrame{
 
+	//Panels to be added to frame
 	private GamePanel gamePanel;
 	private ControlPanel controlPanel;
 	
 	public static int WIDTH = 1000;
 	public static int HEIGHT = 600;
 	
+	//Constructor
 	public PaddleGame()
 	{		
+		//Setup GUI Layout and position
 		this.setSize(WIDTH, HEIGHT);
 		this.setLayout(new BorderLayout());
 		this.setResizable(false);
@@ -52,6 +63,7 @@ public class PaddleGame extends JFrame{
 		this.setVisible(true);
 	}
 	
+	//Getters and setters for components on the Control Panel
 	public void setStart(boolean pEnabled)
 	{
 		controlPanel.startButton.setEnabled(pEnabled);
@@ -69,7 +81,7 @@ public class PaddleGame extends JFrame{
 	
 	
 	
-	
+	//Main
 	public static void main(String[] args)
 	{
 		PaddleGame game = new PaddleGame();

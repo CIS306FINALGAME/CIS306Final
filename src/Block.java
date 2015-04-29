@@ -5,15 +5,24 @@ import java.awt.Rectangle;
 import java.util.Random;
 
 
+/**
+ * Class Name: Block
+ * Purpose: 	
+ * 		The block class is used to create the breakable blocks to serve as the objective of the game. Blocks are simply rectangular objects
+ * 		with GameObject properties as well as a broken setting that determines whether or not it should be removed.
+ * 
+ * @author Travis
+ *
+ */
+
 public class Block extends GameObject{
 
 	
-	private boolean broken;
+	private boolean broken;	
 	
-	
+	//Constructor
 	public Block(int pXPos, int pYPos)
 	{
-		//Need to add functionality to add images
 		xPos = pXPos;
 		yPos = pYPos;
 		
@@ -24,12 +33,13 @@ public class Block extends GameObject{
 		collisionRect = new Rectangle(xPos,yPos,width,height);
 	}
 	
-	
+	//Determine whether the block is broken
 	public boolean isBroken()
 	{
 		return broken;
 	}
 	
+	//Set the block broken or not
 	public void setBroken(boolean pBroken) {
 		this.broken = pBroken;
 	}
