@@ -24,7 +24,6 @@ import javax.swing.JApplet;
 
 public class PaddleGame extends JFrame{
 
-	private ScorePanel scorePanel;
 	private GamePanel gamePanel;
 	private ControlPanel controlPanel;
 	
@@ -38,33 +37,33 @@ public class PaddleGame extends JFrame{
 		this.setResizable(false);
 		
 		//Setup panels
-		gamePanel = new GamePanel();
-		//scorePanel = new ScorePanel(gamePanel);
+		gamePanel = new GamePanel(this);
 		controlPanel = new ControlPanel(gamePanel);
 		
 		
 		//Add panels to frame
-		//this.add(scorePanel,BorderLayout.NORTH);
 		this.add(gamePanel, BorderLayout.CENTER);
 		this.add(controlPanel, BorderLayout.SOUTH);
-		
-		
 
 		this.setVisible(true);
-
-		
 	}
 	
-	public void testFunc()
+	public void setStart(boolean pEnabled)
 	{
-		System.out.println("From paddleGame");
+		controlPanel.startButton.setEnabled(pEnabled);
 	}
+	
+	public void setPause(boolean pEnabled)
+	{
+		controlPanel.pauseButton.setEnabled(pEnabled);
+	}
+	
+	
 	
 	
 	public static void main(String[] args)
 	{
 		PaddleGame game = new PaddleGame();
-	
 	}
 	
 	

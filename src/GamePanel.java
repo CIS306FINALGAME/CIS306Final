@@ -12,6 +12,7 @@ import javax.swing.JButton;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
+import javax.swing.SwingConstants;
 import javax.swing.Timer;
 
 import org.omg.CORBA.PRIVATE_MEMBER;
@@ -39,14 +40,17 @@ public class GamePanel extends JPanel implements Runnable{
 	
 	private boolean run;
 	
+	private PaddleGame padGameRef;
 	
 	private JFrame endFrame;
 	private JButton playAgainButton;
 	private JButton exitButton;
 	
 
-	public GamePanel() 
+	public GamePanel(PaddleGame pPadGameRef) 
 	{
+		padGameRef = pPadGameRef;
+		
 		blocks = new ArrayList<Block>();
 		setupBlocks();
 		ball = new Ball();
@@ -62,6 +66,7 @@ public class GamePanel extends JPanel implements Runnable{
 		this.setFocusable(true);	
 		
 	}
+
 
 	@Override
 	public void run() 
@@ -150,7 +155,8 @@ public class GamePanel extends JPanel implements Runnable{
 			endFrame = new JFrame();
 			JPanel endButtonPanel = new JPanel();
 			
-			JLabel winLabel = new JLabel("You Win!");
+			JLabel endLabel = new JLabel("You Win!");
+			endLabel.setHorizontalAlignment(SwingConstants.CENTER);
 			
 			playAgainButton = new JButton("Play Again"); 
 			exitButton = new JButton("Exit");
@@ -159,7 +165,7 @@ public class GamePanel extends JPanel implements Runnable{
 			
 			endFrame.setLayout(new BorderLayout());
 			endFrame.setSize(300, 100);
-			endFrame.setLocation(GamePanel.WIDTH/2, GamePanel.HEIGHT/2);
+			endFrame.setLocation(300,300);
 			
 			playAgainButton.addActionListener(new buttonListener());
 			exitButton.addActionListener(new buttonListener());
@@ -167,7 +173,7 @@ public class GamePanel extends JPanel implements Runnable{
 			endButtonPanel.add(playAgainButton);
 			endButtonPanel.add(exitButton);
 			
-			endFrame.add(winLabel,BorderLayout.CENTER);
+			endFrame.add(endLabel,BorderLayout.CENTER);
 			endFrame.add(endButtonPanel, BorderLayout.SOUTH);
 			
 			
@@ -182,7 +188,8 @@ public class GamePanel extends JPanel implements Runnable{
 			endFrame = new JFrame();
 			JPanel endButtonPanel = new JPanel();
 			
-			JLabel loseLabel = new JLabel("You Lose!");
+			JLabel endLabel = new JLabel("You Lose!");
+			endLabel.setHorizontalAlignment(SwingConstants.CENTER);
 			
 			playAgainButton = new JButton("Play Again"); 
 			exitButton = new JButton("Exit");
@@ -191,7 +198,7 @@ public class GamePanel extends JPanel implements Runnable{
 			
 			endFrame.setLayout(new BorderLayout());
 			endFrame.setSize(300, 100);
-			endFrame.setLocation(GamePanel.WIDTH/2, GamePanel.HEIGHT/2);
+			endFrame.setLocation(300,300);
 			
 			playAgainButton.addActionListener(new buttonListener());
 			exitButton.addActionListener(new buttonListener());
@@ -199,7 +206,7 @@ public class GamePanel extends JPanel implements Runnable{
 			endButtonPanel.add(playAgainButton);
 			endButtonPanel.add(exitButton);
 			
-			endFrame.add(loseLabel,BorderLayout.CENTER);
+			endFrame.add(endLabel,BorderLayout.CENTER);
 			endFrame.add(endButtonPanel, BorderLayout.SOUTH);
 			
 			
@@ -299,6 +306,9 @@ public class GamePanel extends JPanel implements Runnable{
 		setupBlocks();
 		ball = new Ball();
 		player = new Paddle();
+		
+		padGameRef.setStart(true);
+		padGameRef.setPause(false);
 		
 		revertVelocity = false;
 		run = false;
