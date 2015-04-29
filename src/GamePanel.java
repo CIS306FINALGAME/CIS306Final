@@ -1,13 +1,21 @@
+
 import java.awt.Color;
 import java.awt.Graphics;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
+import java.io.IOException;
+import java.net.URL;
 import java.util.ArrayList;
 
 import javax.swing.JPanel;
 import javax.swing.Timer;
+import javax.sound.sampled.AudioInputStream;
+import javax.sound.sampled.AudioSystem;
+import javax.sound.sampled.Clip;
+import javax.sound.sampled.LineUnavailableException;
+import javax.sound.sampled.UnsupportedAudioFileException;
 
 import org.omg.CORBA.PRIVATE_MEMBER;
 
@@ -23,6 +31,9 @@ public class GamePanel extends JPanel implements Runnable{
 	
 	protected final static int  WIDTH = 1000;
 	protected final static int  HEIGHT = 600;
+	
+	private Clip launch;
+	private Clip blip;
 	
 	private Paddle player;
 	private Ball ball;
@@ -54,6 +65,12 @@ public class GamePanel extends JPanel implements Runnable{
 		this.addKeyListener(new keysPressed());
 		this.setVisible(true);
 		this.setFocusable(true);	
+		
+		// load sounds and set currentSound
+		loadLaunchSound();
+		loadBlipSound();
+		
+		
 	}
 
 	@Override
@@ -128,6 +145,8 @@ public class GamePanel extends JPanel implements Runnable{
 	 */
 	public void ballLaunched(){
 		ball.setLockedToPaddle(false);
+		launch.setFramePosition(0);
+		launch.start();
 		moveBall();
 		
 	}
@@ -141,18 +160,26 @@ public class GamePanel extends JPanel implements Runnable{
 		for (Block block : blocks) {	
 			if (blockCrushed == false)
 			{
+				// Set frame equal to 0 to ensure we are at the beginning of the audio clip
+				// Start the audio clip
 				if(ball.collisionRect.intersects(block.collisionRect)){
+					blip.setFramePosition(0);
+					blip.start();
 					block.setBroken(true);
 					ball.crashedBlock();
 					blockCrushed = true;
+
 				}
 				blockCrushed = false;
 			}
 			
 		}
 		// CEG: For Paddle Collisions, We are in business now boys
+			// Set frame equal to 0 to ensure we are at the beginning of the audio clip
+			// Start the audio clip
 		if(ball.collisionRect.intersects(player.collisionRect)){
-			
+				blip.setFramePosition(0);
+				blip.start();
 				ball.crashedPaddle();
 		}
 		
@@ -259,6 +286,63 @@ public class GamePanel extends JPanel implements Runnable{
 		ball.draw(g);
 		
 	}
+	
+	/**
+	 * 	Audio Clip Load Methods
+	 * 		Two different ones
+	 * 			~LuanchLoad
+	 * 			~Blip Load
+	 * 
+	 */
+	public void loadLaunchSound()
+	{
+		 try {
+	         // Open an audio input stream.
+	         URL url = this.getClass().getClassLoader().getResource("launch.wav");
+	         AudioInputStream audioIn = AudioSystem.getAudioInputStream(url);
+	         // Get a sound clip resource.
+	         launch = AudioSystem.getClip();
+	         // Open audio clip and load samples from the audio input stream.
+	         launch.open(audioIn);
+	         
+	      } 
+		 catch (UnsupportedAudioFileException e) {
+	         e.printStackTrace();
+	      } 
+		 catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+	      } 
+		 catch (LineUnavailableException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+      }
+	public void loadBlipSound()
+	{
+		 try {
+	         // Open an audio input stream.
+	         URL url = this.getClass().getClassLoader().getResource("collisionBlip.wav");
+	         AudioInputStream audioIn = AudioSystem.getAudioInputStream(url);
+	         // Get a sound clip resource.
+	         blip = AudioSystem.getClip();
+	         // Open audio clip and load samples from the audio input stream.
+	         blip.open(audioIn);
+	         
+	      } 
+		 catch (UnsupportedAudioFileException e) {
+	         e.printStackTrace();
+	      } 
+		 catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+	      } 
+		 catch (LineUnavailableException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+      }
+
 
 	
 /**
