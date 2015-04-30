@@ -9,8 +9,6 @@ import java.awt.Rectangle;
  * Purpose: 	
  * 		The block class is used to create the breakable blocks to serve as the objective of the game. Blocks are simply rectangular objects
  * 		with GameObject properties as well as a broken setting that determines whether or not it should be removed.
- * 
- * @author Travis
  *
  */
 

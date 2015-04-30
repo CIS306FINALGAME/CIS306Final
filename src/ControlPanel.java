@@ -13,8 +13,6 @@ import javax.swing.JPanel;
  * Purpose: 
  * 		The Control Panel is used to provide a means of overall application and game control. This panel houses the buttons to start,
  * 		pause, and exit the game. 
- * 
- * @author Travis
  *
  */
 
@@ -77,10 +75,7 @@ public class ControlPanel extends JPanel {
 	/**
 	 * Class Name: ButtonListener
 	 * Purpose: 
-	 * 		Determine which button user pressed and call appropriate functions.
-	 * 
-	 * 
-	 * @author Travis
+	 * 		Determine which button user pressed and call appropriate functions. 
 	 */
 	private class buttonListener implements ActionListener
 	{

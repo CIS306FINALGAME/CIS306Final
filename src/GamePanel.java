@@ -30,8 +30,6 @@ import javax.sound.sampled.UnsupportedAudioFileException;
  * 		This is location of the majority of the game's logic. Inside the game panel is the main thread execution and the functions 
  * 		that go along with it. The game panel is the main drawing panel on the center of the window. This is where the Paddle, Ball,
  * 		and blocks will be drawn. 
- * 		
- * @author Travis
  *
  */
 public class GamePanel extends JPanel implements Runnable{
@@ -179,8 +177,6 @@ public class GamePanel extends JPanel implements Runnable{
 	 * Is called when the "player" hits the space bar
 	 * 			Set our Bool Value to false
 	 * 			Calls the moveBall Function
-	 * 
-	 * @Author Chris
 	 */
 	public void ballLaunched(){
 		ball.setLockedToPaddle(false);
@@ -193,7 +189,6 @@ public class GamePanel extends JPanel implements Runnable{
 	/**
 	 * Check for ending condition of victory or loss, unless godmode is enabled, in which case the ball is just reset and the game continues (i.e. cannot lose) 
 	 * 
-	 * @author Travis
 	 */
 	private void checkEnd()
 	{
@@ -242,7 +237,7 @@ public class GamePanel extends JPanel implements Runnable{
 			}
 			
 		}
-		// CEG: For Paddle Collisions, We are in business now boys
+		// For Paddle Collisions, We are in business now boys
 			// Set frame equal to 0 to ensure we are at the beginning of the audio clip
 			// Start the audio clip
 		if(ball.collisionRect.intersects(player.collisionRect)){
@@ -282,7 +277,6 @@ public class GamePanel extends JPanel implements Runnable{
 	
 	/**
 	 * Remove all broken blocks from list to approach end condition
-	 * @author Travis
 	 */
 	private void removeObjects()
 	{
@@ -299,8 +293,6 @@ public class GamePanel extends JPanel implements Runnable{
 	 * 			-Checks to see if the player dies or not
 	 * 	
 	 * Calls the move ball Function from the ball class
-	 * 
-	 * @author Chris
 	 */	
 	private void moveBall()
 	{	
@@ -315,7 +307,6 @@ public class GamePanel extends JPanel implements Runnable{
 	
 	/**
 	 * Setup the endGame Dialog box. Prompt the user to play again or exit the game.
-	 * @author Travis
 	 */
 	private void endgameDialogBox(String pMessage)
 	{
@@ -359,7 +350,6 @@ public class GamePanel extends JPanel implements Runnable{
 	
 	/**
 	 * Setup game method to setup game settings for consecutive time game is played
-	 * @author Travis
 	 */
 	private void setupGame()
 	{
@@ -389,7 +379,6 @@ public class GamePanel extends JPanel implements Runnable{
 	
 	/**
 	 * Setup main block level layout
-	 * @author Travis
 	 */
 	private void setupBlocks()
 	{
@@ -411,7 +400,6 @@ public class GamePanel extends JPanel implements Runnable{
 	
 	/**
 	 * Method called on repaint. Request focus, then paint all the objects to the panel based on their positions and statuses.
-	 * @author Travis
 	 */
 	public void paintComponent(Graphics g){
 		//Call Super paint function
@@ -495,6 +483,7 @@ public class GamePanel extends JPanel implements Runnable{
       }
 	
 	
+	//Load image for background
 	public void loadBackground(String pFileName) {
     	URL url = null;
     	Toolkit tk = Toolkit.getDefaultToolkit();
@@ -514,8 +503,6 @@ public class GamePanel extends JPanel implements Runnable{
  *			- Actually allows the player to launch the ball when they are ready to
  *  - Set up "G" key as cheat code to enable godMode
  *  		- God mode will ensure it is impossible to lose the game or die
- *
- * @author Chris
  *
  */
 	private class keysPressed implements KeyListener {
@@ -587,7 +574,6 @@ public class GamePanel extends JPanel implements Runnable{
 	/**
 	 * 
 	 * Button listener to be applied to dialog box shown when end game condition is met.
-	 * @author Travis
 	 *
 	 */
 	private class buttonListener implements ActionListener

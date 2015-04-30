@@ -7,9 +7,6 @@
  * 
  * Attributes:		x and y velocity, set ball width and height for non argument consturctor.
  * 
- *  
- * 
- * @author Chris
  * 
  * 
  */
@@ -73,7 +70,6 @@ public class Ball extends GameObject{
 		* IF the ball hasn't been launched yet
 		*
 		* Keep moving the ball with the paddle until we have launched it
-		* @author Chris
 		* 
 		* Update -
 		* Only move ball if the movement won't move it out of bounds on the paddle
@@ -111,7 +107,6 @@ public class Ball extends GameObject{
 		/**
 		 * Draw method, sets the color to what we predetermine
 		 * Fill the oval, at the X,Y Pos and using the width and height
-		 * @author Chris
 		 */
 		public void draw(Graphics g)
 		{			
@@ -137,12 +132,11 @@ public class Ball extends GameObject{
 		/**
 		 * Reset the Ball Location after it dies
 		 * Gets called from the GamePanel.
-		 * @author Chris
 		 */
 		public void ballReset(int resetX){
 			setLockedToPaddle(true);
 			xPos = resetX;		
-			yPos = 445;						//	CHANGE ME WHEN WE START USING PICTURES
+			yPos = 445;						
 			xVelocity = 1;
 			yVelocity = -1;	
 		}
@@ -152,14 +146,11 @@ public class Ball extends GameObject{
 		 * Methods set up to change our velocity depending on if we crashed on the x or y planes
 		 * 
 		 * Will call these methods from the gamePanel, when we check for logic and figure out the collision
-		 * @author Chris
 		 */
 		public void crashedBlock(){
 			collisionRect.x = this.xPos;
 			collisionRect.y = this.yPos;
-			
-			//int tempVelocity = 1 + generator.nextInt(5);
-			
+						
 			setyVelocity(-1*getyVelocity());
 
 			xPos = xPos + xVelocity;

@@ -8,8 +8,6 @@
  * 
  * has getter/setter for the lives so Game Manager can interact with this when the ball is beyond the reach of the paddle object
  * 
- * @author Chris
- * 
  * 
  */
 

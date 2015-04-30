@@ -28,8 +28,6 @@ import javax.swing.JApplet;
  * Purpose: 	
  * 		PaddleGame serves as the overall container. It is where the panels are housed as well as where the main[] of the application is
  * 		executed. 
- * 
- * @author Travis
  *
  */
 public class PaddleGame extends JFrame{

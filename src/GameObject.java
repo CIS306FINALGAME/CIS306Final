@@ -132,6 +132,7 @@ public abstract class GameObject {
 		return collisionRect;
 	}
 	
+	//Load image
 	public void loadImage(String pFileName) {
     	URL url = null;
     	Toolkit tk = Toolkit.getDefaultToolkit();
