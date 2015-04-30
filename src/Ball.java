@@ -116,49 +116,23 @@ public class Ball extends GameObject{
 		{
 			g.setColor(ballColor);
 			g.fillOval(xPos, yPos, ballWidth, ballHeight);
-			
-			
-//			g.setColor(Color.RED);
-//			g.drawRect(collisionRect.x, collisionRect.y, collisionRect.width, collisionRect.height);
 		}
 
+		/**
+		 * Move Ball Function
+		 * 		Is Called from GamePanel
+		 * 		Moves the collision Rectangle with the ball
+		 * 		Keeps moving the X and Y Pos for each Velocity
+		 */
 		public void moveBall()
 		{
 			//Set the CollisionRectangle x,y to the position of the ball
 			collisionRect.x = this.xPos;
 			collisionRect.y = this.yPos;
-
-//			//Always check to make sure we don't hit the edges of the panel
-//			//If we do, change the x, or y velocity depending of which panel piece we hit
-//			if (getxPos()+ ballWidth>GamePanel.WIDTH-10 || getxPos()<3 )
-//			{
-//				setxVelocity(-1* getyVelocity());
-//			}
-//			if(getyPos()+Ball.ballHeight >GamePanel.HEIGHT-110 || getyPos()<3)
-//			{
-//				setyVelocity(-1* getyVelocity());
-//			}
-//			
+		
 			xPos = xPos + xVelocity;
 			yPos = yPos + yVelocity;
-		}
-
-//		/**	Checks to see if the ball is crashing into the edges of the panel
-//		 * 
-//		 * @author Chris
-//		 */
-//		private void panelCrashes() {
-//			//Always check to make sure we don't hit the edges of the panel
-//			//If we do, change the x, or y velocity depending of which panel piece we hit
-//			if (getxPos()+ ballWidth>GamePanel.WIDTH-10 || getxPos()<3 )
-//			{
-//				setxVelocity(-1* getyVelocity());
-//			}
-//			if(getyPos()+Ball.ballHeight >GamePanel.HEIGHT-110 || getyPos()<3)
-//			{
-//				setyVelocity(-1* getyVelocity());
-//			}
-//		}	
+		}	
 		
 		/**
 		 * Reset the Ball Location after it dies
@@ -192,30 +166,38 @@ public class Ball extends GameObject{
 			yPos = yPos + yVelocity;
 		}
 		
+		/**
+		 * Simple method, that will get called from Game Panel On Collision with the Player
+		 * 	Calls a Crashed X and Y Function
+		 */
 		public void crashedPaddle(){
 				crashedYPos();
 				crashedXPos();
 		}
-		
+		/**
+		 * Crashed X Pos Function
+		 * 			Sets the collision rectangle to current x,y position
+		 * 			change our velocity
+		 * 			Change x,y positions
+		 */
 		private void crashedXPos(){
 			collisionRect.x = this.xPos;
 			collisionRect.y = this.yPos;
-			
-			//Randomizing part of the velocity, and adding one to make sure we dont get in going in a straight line
-			//int tempVelocity = 1 + generator.nextInt(6);
 			setxVelocity(1*getxVelocity());
-
-			//int tempVelocity = 1 + generator.nextInt(6);
 			xPos = xPos + xVelocity;
 			yPos = yPos + yVelocity;
-			
 		}
 		
+		/**
+		 * Crashed Y Pos Function
+		 * 			Sets the collision rectangle to current x,y position
+		 * 			change our velocity
+		 * 			Change x,y positions
+		 */
 		private void crashedYPos(){
 			collisionRect.x = this.xPos;
 			collisionRect.y = this.yPos;			
 			
-			//int tempVelocity = 1 + generator.nextInt(18);
 			setyVelocity(-1*getyVelocity());
 			
 			xPos = xPos + xVelocity;

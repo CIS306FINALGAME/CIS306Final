@@ -13,13 +13,9 @@
  * 
  */
 
-
-import java.awt.Color;
 import java.awt.Graphics;
 import java.awt.Image;
 import java.awt.Rectangle;
-import java.awt.event.KeyEvent;
-
 
 public class Paddle extends GameObject{
 
@@ -58,9 +54,6 @@ public class Paddle extends GameObject{
 			collisionRect.x = this.xPos;
 			collisionRect.y = this.yPos;
 		}
-
-		
-
 	}
 	//Called from the Game Manger when the player presses the right arrow key
 	public void moveRight()
@@ -71,21 +64,10 @@ public class Paddle extends GameObject{
 		collisionRect.x = this.xPos;
 		collisionRect.y = this.yPos;
 		}
-
 	}
-		
-
 	
-	
+	// Called to draw our paddle on the GamePanel
 	public void draw (Graphics g) {
-	// TODO Auto-generated method stub
-		   
-		   g.fillRect( xPos, yPos, width, height);
-		   
-		   
-//		   g.setColor(Color.RED);
-//		   g.drawRect(collisionRect.x, collisionRect.y, collisionRect.width, collisionRect.height);
-		
-	
+		   g.fillRect( xPos, yPos, width, height);	
 	}	
 }

@@ -305,7 +305,7 @@ public class GamePanel extends JPanel implements Runnable{
 		{
 			ball.moveBall();
 		}
-		//repaint();	
+			
 	}
 	
 	
@@ -396,14 +396,6 @@ public class GamePanel extends JPanel implements Runnable{
 			{
 				blocks.add(new Block( i * (blockWidth + spacing) + offset, j * (blockHeight + spacing) + offset));
 			}
-		
-		//Test for end condition with single block
-//		for(int i = 0; i < 1; i++)
-//			for(int j = 0; j < 1; j++)
-//			{
-//				blocks.add(new Block( i * (blockWidth + spacing) + offset, j * (blockHeight + spacing) + offset));
-//			}
-		
 	}
 	
 	
@@ -433,18 +425,6 @@ public class GamePanel extends JPanel implements Runnable{
 		ball.draw(g);
 		
 	}
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
 	
 	/**
 	 * 	Audio Clip Load Methods
@@ -477,6 +457,7 @@ public class GamePanel extends JPanel implements Runnable{
 			e.printStackTrace();
 		}
       }
+	
 	public void loadBlipSound()
 	{
 		 try {
