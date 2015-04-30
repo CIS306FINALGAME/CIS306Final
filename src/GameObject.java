@@ -48,10 +48,10 @@ public abstract class GameObject {
 	
 	
 	//Overloaded constructor which takes a reference to the image of the object being created
-	public GameObject(Image pObjectPic)
+	public GameObject(String pFileName)
 	{
 		
-		objectPic = pObjectPic;
+		loadImage(pFileName);
 		xPos = 0;
 		yPos = 0;
 		shouldDraw = true;
@@ -132,6 +132,12 @@ public abstract class GameObject {
 		return collisionRect;
 	}
 	
+	public void loadImage(String pFileName) {
+    	URL url = null;
+    	Toolkit tk = Toolkit.getDefaultToolkit();
+        url = this.getClass().getResource(pFileName);
+        objectPic = tk.getImage(url);
+    }
 
 	abstract public void draw(Graphics g);
 	

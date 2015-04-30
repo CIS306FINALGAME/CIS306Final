@@ -2,7 +2,9 @@
 import java.awt.BorderLayout;
 import java.awt.Color;
 import java.awt.Graphics;
+import java.awt.Image;
 import java.awt.LayoutManager;
+import java.awt.Toolkit;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.KeyEvent;
@@ -41,6 +43,9 @@ public class GamePanel extends JPanel implements Runnable{
 	protected final static int  WIDTH = 1000; 
 	protected final static int  HEIGHT = 600;
 	
+	//Background image for panel
+	private Image background;
+	
 	//Audio
 	private Clip launch;
 	private Clip blip;
@@ -73,8 +78,10 @@ public class GamePanel extends JPanel implements Runnable{
 		
 		blocks = new ArrayList<Block>();
 		setupBlocks();
-		ball = new Ball();
-		player = new Paddle();
+		ball = new Ball("ball.png");
+		player = new Paddle("paddle.png");
+		
+		loadBackground("background.png");
 		
 		revertVelocity = false;
 		blockCrushed = false;
@@ -92,7 +99,7 @@ public class GamePanel extends JPanel implements Runnable{
 		loadLaunchSound();
 		loadBlipSound();
 		
-		
+		repaint();
 	}
 	
 	
@@ -359,13 +366,16 @@ public class GamePanel extends JPanel implements Runnable{
 	 */
 	private void setupGame()
 	{
-		//Setup the blocks 
+		//Setup the blocks
 		blocks = new ArrayList<Block>();
 		setupBlocks();
 		
 		//Setup Game Objects
-		ball = new Ball();
-		player = new Paddle();
+		ball = new Ball("ball.png");
+		player = new Paddle("paddle.png");
+		
+		//Load in background
+		loadBackground("background.png");
 		
 		//Enable/Disable the buttons appropriately
 		padGameRef.setStart(true);
@@ -376,6 +386,8 @@ public class GamePanel extends JPanel implements Runnable{
 		blockCrushed = false;
 		run = false;
 		godmode = false;
+		
+		repaint();
 	}
 	
 	/**
@@ -394,7 +406,7 @@ public class GamePanel extends JPanel implements Runnable{
 		for(int i = 0; i < columns; i++)
 			for(int j = 0; j < rows; j++)
 			{
-				blocks.add(new Block( i * (blockWidth + spacing) + offset, j * (blockHeight + spacing) + offset));
+				blocks.add(new Block( i * (blockWidth + spacing) + offset, j * (blockHeight + spacing) + offset, "block.png"));
 			}
 		
 		//Test for end condition with single block
@@ -417,6 +429,9 @@ public class GamePanel extends JPanel implements Runnable{
 		super.paintComponent(g);
 		//Make sure focus is set to panel so we can move the paddle
 		this.requestFocus();
+		
+		//Draw panel background
+		g.drawImage(background, 0, 0, null);
 
 		//paint the blocks on the screen
 		for (Block block : blocks) {
@@ -426,8 +441,7 @@ public class GamePanel extends JPanel implements Runnable{
 					block.draw(g);
 				}		
 		}
-		//Set color to draw the paddle
-		g.setColor(Color.WHITE);   
+		  
 		//Draw our player and ball
 		player.draw(g);
 		ball.draw(g);
@@ -501,6 +515,14 @@ public class GamePanel extends JPanel implements Runnable{
 			e.printStackTrace();
 		}
       }
+	
+	
+	public void loadBackground(String pFileName) {
+    	URL url = null;
+    	Toolkit tk = Toolkit.getDefaultToolkit();
+        url = this.getClass().getResource(pFileName);
+        background = tk.getImage(url);
+    }
 
 
 	

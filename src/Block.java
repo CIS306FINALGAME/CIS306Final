@@ -33,6 +33,20 @@ public class Block extends GameObject{
 		collisionRect = new Rectangle(xPos,yPos,width,height);
 	}
 	
+	public Block(int pXPos, int pYPos, String pFileName)
+	{
+		super(pFileName);
+		
+		xPos = pXPos;
+		yPos = pYPos;
+		
+		width = 75;
+		height = 15; 
+		
+		broken = false;
+		collisionRect = new Rectangle(xPos,yPos,width,height);
+	}
+	
 	//Determine whether the block is broken
 	public boolean isBroken()
 	{
@@ -48,8 +62,11 @@ public class Block extends GameObject{
 	@Override
 	public void draw(Graphics g) {
 		// TODO Auto-generated method stub
-		g.setColor(Color.WHITE);
-		g.fillRect(xPos, yPos, width, height);
+		
+		g.drawImage(getObjectPic(), xPos, yPos, null);
+		
+//		g.setColor(Color.WHITE);
+//		g.fillRect(xPos, yPos, width, height);
 		
 		
 //		g.setColor(Color.RED);

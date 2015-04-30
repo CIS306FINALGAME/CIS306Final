@@ -39,11 +39,15 @@ public class Paddle extends GameObject{
 	}
 	
 	//overloaded constructor
-	public Paddle(Image pImage)
+	public Paddle(String pFileName)
 	{
-		super (pImage);
-		xPos = GamePanel.WIDTH/4;
+		super (pFileName);
+		width = 100;
+		height = 10;
+		
+		xPos = (GamePanel.WIDTH/2) - (width/2);
 		yPos = 460;
+		
 		collisionRect = new Rectangle(xPos, yPos, width, height);
 		
 		
@@ -80,11 +84,13 @@ public class Paddle extends GameObject{
 	public void draw (Graphics g) {
 	// TODO Auto-generated method stub
 		   
-		   g.fillRect( xPos, yPos, width, height);
-		   
-		   
-//		   g.setColor(Color.RED);
-//		   g.drawRect(collisionRect.x, collisionRect.y, collisionRect.width, collisionRect.height);
+		g.drawImage(getObjectPic(), xPos, yPos, null);
+		
+		//g.fillRect( xPos, yPos, width, height);
+	   
+	   
+		//g.setColor(Color.RED);
+		//g.drawRect(collisionRect.x, collisionRect.y, collisionRect.width, collisionRect.height);
 		
 	
 	}	

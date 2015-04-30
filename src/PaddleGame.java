@@ -47,6 +47,7 @@ public class PaddleGame extends JFrame{
 		//Setup GUI Layout and position
 		this.setSize(WIDTH, HEIGHT);
 		this.setLayout(new BorderLayout());
+		this.setDefaultCloseOperation(EXIT_ON_CLOSE);
 		this.setResizable(false);
 		this.setTitle("Paddle Game");
 		this.setLocation(200,100);
