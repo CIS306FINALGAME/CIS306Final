@@ -25,7 +25,7 @@ public class Ball extends GameObject{
 	
 	public static final int ballWidth = 15;
 	public static final int ballHeight = 15;
-	
+		
 	private int xVelocity;
 	private int yVelocity;
 	private Color ballColor;
@@ -43,7 +43,6 @@ public class Ball extends GameObject{
 			collisionRect = new Rectangle(xPos, yPos, ballWidth, ballHeight);
 			ballColor = new Color(150,150,250);
 			
-			// Set a constant velocity of  1:3 to create a nice steep angle
 			xVelocity = 1;
 			yVelocity = -1;
 			
@@ -53,18 +52,21 @@ public class Ball extends GameObject{
 		}
 		
 		//overloaded constructor
-		public Ball(Image pImage)
+		public Ball(String pFileName)
 		{
-			super (pImage);
+			super (pFileName);
 		
-
-			yPos = GamePanel.HEIGHT - 100;
+			xPos = (GamePanel.WIDTH/2) - (ballWidth/2);
+			yPos = 445;
 			
 			collisionRect = new Rectangle(xPos, yPos, ballWidth, ballHeight);
+			ballColor = new Color(150,150,250);
 			
-			// Set a constant velocity of  2:-3 to create a nice steep angle
-			xVelocity = 12;
-			yVelocity = -18;
+			xVelocity = 1;
+			yVelocity = -1;
+			
+		//Set to true means that we haven't launched the ball
+			lockedToPaddle = true;
 			
 		}
 		
@@ -113,9 +115,8 @@ public class Ball extends GameObject{
 		 * @author Chris
 		 */
 		public void draw(Graphics g)
-		{
-			g.setColor(ballColor);
-			g.fillOval(xPos, yPos, ballWidth, ballHeight);
+		{			
+			g.drawImage(getObjectPic(), xPos, yPos, null);
 		}
 
 		/**

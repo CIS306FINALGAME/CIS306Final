@@ -35,11 +35,15 @@ public class Paddle extends GameObject{
 	}
 	
 	//overloaded constructor
-	public Paddle(Image pImage)
+	public Paddle(String pFileName)
 	{
-		super (pImage);
-		xPos = GamePanel.WIDTH/4;
+		super (pFileName);
+		width = 100;
+		height = 10;
+		
+		xPos = (GamePanel.WIDTH/2) - (width/2);
 		yPos = 460;
+		
 		collisionRect = new Rectangle(xPos, yPos, width, height);
 		
 		
@@ -68,6 +72,9 @@ public class Paddle extends GameObject{
 	
 	// Called to draw our paddle on the GamePanel
 	public void draw (Graphics g) {
-		   g.fillRect( xPos, yPos, width, height);	
+	// TODO Auto-generated method stub
+		   
+		g.drawImage(getObjectPic(), xPos, yPos, null);
+		
 	}	
 }
