@@ -28,7 +28,6 @@ public class Ball extends GameObject{
 		
 	private int xVelocity;
 	private int yVelocity;
-	private Color ballColor;
 
 	private boolean lockedToPaddle;
 
@@ -41,7 +40,7 @@ public class Ball extends GameObject{
 			yPos = 445;
 			
 			collisionRect = new Rectangle(xPos, yPos, ballWidth, ballHeight);
-			ballColor = new Color(150,150,250);
+			
 			
 			xVelocity = 1;
 			yVelocity = -1;
@@ -60,7 +59,7 @@ public class Ball extends GameObject{
 			yPos = 445;
 			
 			collisionRect = new Rectangle(xPos, yPos, ballWidth, ballHeight);
-			ballColor = new Color(150,150,250);
+			
 			
 			xVelocity = 1;
 			yVelocity = -1;
